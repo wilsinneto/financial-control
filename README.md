@@ -1,23 +1,23 @@
-# client
+# Financial Control
 
 ## Project setup
 ```
-yarn install
+yarn 
 ```
 
 ### Compiles and hot-reloads for development
 ```
-yarn serve
+yarn 
 ```
 
 ### Compiles and minifies for production
 ```
-yarn build
+yarn 
 ```
 
 ### Lints and fixes files
 ```
-yarn lint
+yarn 
 ```
 
 ### Customize configuration

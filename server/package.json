@@ -5,10 +5,13 @@
   "author": "wilson Neto",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon ./server.js"
+    "start": "nodemon ./src/server.js"
   },
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "sequelize": "^6.3.5",
+    "sequelize-cli": "^6.2.0",
+    "sqlite3": "^5.0.0"
   },
   "devDependencies": {
     "eslint": "^7.13.0",
