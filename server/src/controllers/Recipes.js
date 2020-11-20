@@ -28,10 +28,8 @@ class RecipesController {
       const recipeAlreadyExists = await this.Recipes.findOne(verifyRecipe);
       if (recipeAlreadyExists) return response.status(400).send({ error: "Recipe already exists."});
 
-      const [updateRecipe] = await this.Recipes.update({ description: capitalizeDescription }, payload);
-      if (updateRecipe) {
-        return response.status(200).send();
-      }
+      await this.Recipes.update({ description: capitalizeDescription }, payload);
+      return response.status(200).send();
     } catch (error) {
       return response.status(400).send({ error: error.message });
     }
@@ -62,4 +60,4 @@ class RecipesController {
   }
 }
 
-module.exports = { RecipesController };
+module.exports = RecipesController;

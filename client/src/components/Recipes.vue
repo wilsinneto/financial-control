@@ -65,7 +65,7 @@
               <div class="col-md-2">{{recipe.value}}</div>
               <div class="col-md-2">{{recipe.date}}</div>
               <div class="col-md-2 text-right">
-                <span
+                <!-- <span
                   v-on:click="updateClient(recipe)"
                   class="operator badge badge-success"
                 >
@@ -77,7 +77,7 @@
                   class="operator badge badge-danger"
                 >
                   <i class="fa fa-trash">D</i>
-                </span>
+                </span> -->
               </div>
             </div>
           </li>
@@ -103,14 +103,14 @@ export default {
     }
   },
   methods: {
-    removeClient(recipe) {
-      // kk
-    },
-    updateClient(recipe) {
-      // this.
-    },
+    // removeClient(recipe) {
+    //   // kk
+    // },
+    // updateClient(recipe) {
+    //   // this.
+    // },
     addNewRecipe() {
-      let payload = {id: 0, description: this.newRecipe, value: this.value, date: this.date};
+      // let payload = {id: 0, description: this.newRecipe, value: this.value, date: this.date};
       console.log(payload);
       this.recipes.push(payload);
       this.newRecipe = "";
