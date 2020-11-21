@@ -24,14 +24,12 @@ const headerSave = (method, recipe) => ({
 });
 
 const captureHttpStatusCode = (string) => string.match(/(\d+)/);
-const getMessage = (status) => {
-  const messages = {
+const getMessage = (status) => 
+  ({
     404: "Receita não encontrado.",
     409: "Receita já existe.",
     500: "Error Interno",
-  };
-  return messages[status] || "";
-};
+  }[status] || "");
 
 class RecipesController {
   constructor() {}

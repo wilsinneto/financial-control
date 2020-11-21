@@ -43,7 +43,7 @@ class RecipesController {
       const recipes = await this.Recipes.findAll();
       return response.status(200).send(recipes);
     } catch (error) {
-      return response.status(400).send({error: error.message});
+      return response.status(500).send({error: error.message});
     }
   }
 
@@ -58,7 +58,7 @@ class RecipesController {
       await this.Recipes.create({ description: capitalizeDescription });
       return response.status(201).send({});
     } catch (error) {
-      return response.status(400).send({ error: error.message });
+      return response.status(500).send({ error: error.message });
     }
   }
 }

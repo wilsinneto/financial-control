@@ -1,9 +1,9 @@
-let errors = [];
+let error = "";
 let recipe = {};
 
 function isFieldsEmpty(recipe) {
   if (!recipe)
-    errors.push("O campo Receita deve ser preenchido.");
+    error = "O campo Receita deve ser preenchido.";
 }
 
 function removeExtraSpace(recipe) {
@@ -13,24 +13,24 @@ function removeExtraSpace(recipe) {
 
 function checkLengthName(recipe) {
   if (recipe.length < 2)
-    errors.push("Recita deve conter no mínimo 2 caractres!");
+    error = "Receita deve conter no mínimo 2 caractres!";
   if(recipe.length > 100)
-    errors.push("Recita deve conter no máximo 100 caractres!");
+    error = "Receita deve conter no máximo 100 caractres!";
 }
 
 
 function validateFields(payload) {
   recipe = payload;
   isFieldsEmpty(recipe);
-  if (!errors.length) {
+  if (!error.length) {
     removeExtraSpace(recipe);
     checkLengthName(recipe);
   }
-  return { recipe, errors };
+  return { recipe, error };
 }
 
 exports.validateInputForm = (pyaload) => {
-  errors = [];
+  error = "";
   recipe = {};
   return validateFields(pyaload.description);
 };

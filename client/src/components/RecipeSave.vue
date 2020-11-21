@@ -2,11 +2,8 @@
   <main id="recipes">
     <div class="container">
       <div class="col">
-        <div class="alert alert-danger" role="alert" v-if="errors.length">
-          <b>Por favor, corrija o(s) seguinte(s) erro(s):</b>
-          <ul>
-            <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
-          </ul>
+        <div class="alert alert-danger" role="alert" v-if="error.length">
+          <b>{{ error }}</b>
         </div>
       </div>
       <form>
@@ -60,7 +57,7 @@ export default {
   name: "Recipes",
   data() {
     return {
-      errors: [],
+      error: "",
       recipe: {
         description: ""
       },
@@ -74,22 +71,22 @@ export default {
     },
     async removeRecipe(payload) {
       const response = await this.recipesController.remove(payload);
-      if (response.error) console.log(`Error: ${response.error}`);
+      if (response.error) this.error = response.error;
       this.generateRecipes();
     },
     async addRecipe(payload) {
-      const { recipe, errors } = validateInputForm(payload);
-      this.errors = errors;
-      if (!errors.length) {
+      const { recipe, error } = validateInputForm(payload);
+      this.error = error;
+      if (!error.length) {
         payload.description = recipe;
         if (payload.id) {
           const response = await this.recipesController.update(payload);
-          if (response.error) console.log(`RecipeSave (update) - Error: ${response.error}`);
+          if (response.error) this.error = response.error;
           this.recipe = {};
           this.generateRecipes();
         } else {
           const response = await this.recipesController.create(payload);
-          if (response.error) console.log(`Error: ${response.error}`);
+          if (response.error) this.error = response.error;
           this.recipe = {};
           this.generateRecipes();
         }
@@ -97,7 +94,7 @@ export default {
     },
     async generateRecipes() {
       const response = await this.recipesController.getAll();
-      if (response.error) console.log(`Error: ${response.error}`);
+      if (response.error) this.error = response.error;
       else this.recipes = response;
     },
   },
