@@ -10,13 +10,13 @@
         </div>
       </div>
       <form>
+        <label for="inputRecipe">Receita</label>
         <div class="form-row text-center">
           <div class="col-md-5 text-left">
-            <!-- <label for="inputRecipe">Receita</label> -->
-            <input type="text" class="form-control" v-model="recipe" name="inputRecipe" id="inputRecipe" placeholder="Adicione nova receita">
+            <input type="text" class="form-control" v-model="recipe.description" name="inputRecipe" id="inputRecipe">
           </div>
-          <div class="col-md-1">
-            <button type="submit" class="btn btn-primary" v-on:click.prevent="addRecipe(recipe)">Salvar</button>
+          <div class="col-md-1 text-left">
+            <span class="btn btn-primary" v-on:click="addRecipe(recipe)"><i class="fa fa-plus"></i></span>
           </div>
         </div>
       </form>
@@ -33,7 +33,16 @@
             <li class="list-group-item" v-for="recipe in recipes" v-bind:key="recipe.id">
               <div class="row">
                 <div class="col-md-1">{{recipe.id}}</div>
-                <div class="col-md-11">{{recipe.description}}</div>
+                <div class="col-md-9">{{recipe.description}}</div>
+                <div class="col-md-2 text-right">
+                    <span class="btn btn-success" v-on:click="updateRecipe(recipe)">
+                      <i class="fa fa-pencil"></i>
+                    </span>
+                    &nbsp;
+                    <span class="btn btn-danger" v-on:click="removeRecipe(recipe)">
+                      <i class="fa fa-trash"></i>
+                    </span>
+                  </div>
               </div>
             </li>
           </ul>
@@ -52,29 +61,48 @@ export default {
   data() {
     return {
       errors: [],
-      recipe: "",
-      recipes: []
+      recipe: {
+        description: ""
+      },
+      recipes: [],
+      recipesController: {},
     }
   },
   methods: {
-    addRecipe(newRecipe) {
-      const { recipe, errors } = validateInputForm(newRecipe);
+    async updateRecipe(payload) {
+      this.recipe = payload;
+    },
+    async removeRecipe(payload) {
+      const response = await this.recipesController.remove(payload);
+      if (response.error) console.log(`Error: ${response.error}`);
+      this.generateRecipes();
+    },
+    async addRecipe(payload) {
+      const { recipe, errors } = validateInputForm(payload);
       this.errors = errors;
       if (!errors.length) {
-        let payload = {id: 4, description: recipe};
-        this.recipes.push(payload);
-        this.recipe = "";
-        this.payload = "";
+        payload.description = recipe;
+        if (payload.id) {
+          const response = await this.recipesController.update(payload);
+          if (response.error) console.log(`Error: ${response.error}`);
+          this.recipe = {};
+          this.generateRecipes();
+        } else {
+          const response = await this.recipesController.create(payload);
+          if (response.error) console.log(`Error: ${response.error}`);
+          this.recipe = {};
+          this.generateRecipes();
+        }
       }
     },
     async generateRecipes() {
-      const recipesController = new RecipesController();
-      const recipes = await recipesController.getAll();
-      // console.log(recipes);
-      this.recipes = recipes;
+      const response = await this.recipesController.getAll();
+      if (response.error) console.log(`Error: ${response.error}`);
+      else this.recipes = response;
     },
   },
   created() {
+    this.recipesController = new RecipesController();
     this.generateRecipes();
   },
 }

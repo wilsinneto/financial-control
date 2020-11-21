@@ -12,7 +12,7 @@ class RecipesController {
     const payload = { where: { id }};
     try {
       await this.Recipes.destroy(payload);
-      return response.status(200).send();
+      return response.status(200).send({});
     } catch (error) {
       return response.status(200).send({ error: error.message });
     }
@@ -20,8 +20,8 @@ class RecipesController {
 
   async update(request, response) {
     const id = request.params.id;
-    const description = request.body.description;
-    const capitalizeDescription = capitalizeFirstLetter(description);
+    const body = request.body;
+    const capitalizeDescription = capitalizeFirstLetter(body.description);
     const payload = { where: { id }};
     const verifyRecipe = { where: { description: capitalizeDescription }}
     try {
@@ -29,7 +29,7 @@ class RecipesController {
       if (recipeAlreadyExists) return response.status(400).send({ error: "Recipe already exists."});
 
       await this.Recipes.update({ description: capitalizeDescription }, payload);
-      return response.status(200).send();
+      return response.status(200).send({});
     } catch (error) {
       return response.status(400).send({ error: error.message });
     }
@@ -40,20 +40,20 @@ class RecipesController {
       const recipes = await this.Recipes.findAll();
       return response.status(200).send(recipes);
     } catch (error) {
-      return response.status(400).send(error.message);
+      return response.status(400).send({error: error.message});
     }
   }
 
   async create(request, response) {
-    const description = request.body.description;
-    const capitalizeDescription = capitalizeFirstLetter(description)
-    const verifyRecipe = { where: { description: capitalizeDescription }}
+    const body = request.body;
+    const capitalizeDescription = capitalizeFirstLetter(body.description);
+    const verifyRecipe = { where: { description: capitalizeDescription }};
     try {
       const recipeAlreadyExists = await this.Recipes.findOne(verifyRecipe);
       if (recipeAlreadyExists) return response.status(400).send({ error: "Recipe already exists."});
 
       await this.Recipes.create({ description: capitalizeDescription });
-      return response.status(201).send();
+      return response.status(201).send({});
     } catch (error) {
       return response.status(400).send({ error: error.message });
     }

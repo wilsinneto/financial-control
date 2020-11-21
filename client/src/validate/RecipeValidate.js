@@ -32,5 +32,5 @@ function validateFields(payload) {
 exports.validateInputForm = (pyaload) => {
   errors = [];
   recipe = {};
-  return validateFields(pyaload);
+  return validateFields(pyaload.description);
 };
