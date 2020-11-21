@@ -26,7 +26,10 @@ class RecipesController {
     const verifyRecipe = { where: { description: capitalizeDescription }}
     try {
       const recipeAlreadyExists = await this.Recipes.findOne(verifyRecipe);
-      if (recipeAlreadyExists) return response.status(400).send({ error: "Recipe already exists."});
+      if (recipeAlreadyExists) {
+        console.log("Recipe already exists.");
+        return response.status(409).json({ error: "Recipe already exists."});
+      }
 
       await this.Recipes.update({ description: capitalizeDescription }, payload);
       return response.status(200).send({});
@@ -50,7 +53,7 @@ class RecipesController {
     const verifyRecipe = { where: { description: capitalizeDescription }};
     try {
       const recipeAlreadyExists = await this.Recipes.findOne(verifyRecipe);
-      if (recipeAlreadyExists) return response.status(400).send({ error: "Recipe already exists."});
+      if (recipeAlreadyExists) return response.status(409).send({ error: "Recipe already exists."});
 
       await this.Recipes.create({ description: capitalizeDescription });
       return response.status(201).send({});

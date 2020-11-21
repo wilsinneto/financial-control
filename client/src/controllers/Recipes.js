@@ -23,6 +23,15 @@ const headerSave = (method, recipe) => ({
   body: JSON.stringify(recipe),
 });
 
+const captureHttpStatusCode = (string) => string.match(/(\d+)/);
+const getMessage = (status) => {
+  const messages = {
+    404: "Receita não encontrado.",
+    409: "Receita já existe.",
+    500: "Error Interno",
+  };
+  return messages[status] || "";
+};
 
 class RecipesController {
   constructor() {}
@@ -30,40 +39,54 @@ class RecipesController {
   async update(payload) {
     try {
       const response = await execute(urlAPI.concat(`/${payload.id}`), headerSave("PUT", payload));
-      if (response.error) return { error: response.error };
+      console.log("response.error", response.error);
+      if (response.error) {
+        const [matches] = captureHttpStatusCode(response.message);
+        return { error: getMessage(matches) };
+      }
       return response;
     } catch (error) {
-      return { error: error.message };
+      const [matches] = captureHttpStatusCode(error.message);
+      return { error: getMessage(matches) };
     }
   }
-  async remove(recipe) {
+  async remove(payload) {
     try {
-      const recipeRemove = await execute(urlAPI.concat(`/${recipe.id}`), headerGetOrDelete("DELETE"));
-      if (recipeRemove.error) return { error: recipeRemove.error };
-      return recipeRemove;
+      const response = await execute(urlAPI.concat(`/${payload.id}`), headerGetOrDelete("DELETE"));
+      if (response.error) {
+        const [matches] = captureHttpStatusCode(response.message);
+        return { error: getMessage(matches) };
+      }
+      return response;
     } catch (error) {
-      return { error: error.message };
+      const [matches] = captureHttpStatusCode(error.message);
+      return { error: getMessage(matches) };
     }
   }
   async getAll() {
     try {
-      const recipes = await execute(urlAPI, headerGetOrDelete("GET"));
-      if (recipes.error) return { error: recipes.error };
-      return recipes;
+      const response = await execute(urlAPI, headerGetOrDelete("GET"));
+      if (response.error) {
+        const [matches] = captureHttpStatusCode(response.message);
+        return { error: getMessage(matches) };
+      }
+      return response;
     } catch (error) {
-      return { error: error.message };
+      const [matches] = captureHttpStatusCode(error.message);
+      return { error: getMessage(matches) };
     }
   }
   async create(payload) {
-    // console.log("payload", payload);
-    // console.log("payload.description", payload.description);
     try {
-      const newRecipe = await execute(urlAPI, headerSave("POST", payload));
-      if (newRecipe.error) return { error: newRecipe.error };
-      return newRecipe;
+      const response = await execute(urlAPI, headerSave("POST", payload));
+      if (response.error) {
+        const [matches] = captureHttpStatusCode(response.message);
+        return { error: getMessage(matches) };
+      }
+      return response;
     } catch (error) {
-      console.log("catch (create) - error.message", error.message);
-      return error.message;
+      const [matches] = captureHttpStatusCode(error.message);
+      return { error: getMessage(matches) };
     }
   }
 }

@@ -84,7 +84,7 @@ export default {
         payload.description = recipe;
         if (payload.id) {
           const response = await this.recipesController.update(payload);
-          if (response.error) console.log(`Error: ${response.error}`);
+          if (response.error) console.log(`RecipeSave (update) - Error: ${response.error}`);
           this.recipe = {};
           this.generateRecipes();
         } else {
