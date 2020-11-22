@@ -1,8 +1,11 @@
 <template>
   <main id="recipes">
     <div class="col">
-        <div class="alert alert-danger" role="alert" v-if="error.length">
-          <b>{{ error }}</b>
+        <div class="alert alert-danger" role="alert" v-if="errors.length">
+          <b>Por favor, corrija o(s) seguinte(s) erro(s):</b>
+          <ul>
+            <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
+          </ul>
         </div>
       </div>
     <form>
@@ -102,14 +105,14 @@
 </template>
 
 <script>
-import { validateInputForm } from "../validate/RecipeValidate";
+import { validateInputForm } from "../validate/RecipeWithCapitals";
 import RecipesController from "../controllers/Recipes";
 
 export default {
   name: "Recipes",
   data() {
     return {
-      error: "",
+      errors: [],
       selected: "",
       recipe: {
         description: "",
@@ -117,7 +120,7 @@ export default {
         date: Date
       },
       recipes: [],
-      recipesDatas: [
+      recipesWithCaptals: [
         {id: 1, description: "Salário", value: 12.25, date: "10/05/1993"},
         {id: 2, description: "trabalho", value: 12.25, date: "10/05/1993"},
         {id: 3, description: "vale transporte", value: 12.25, date: "10/05/1993"}
@@ -126,14 +129,18 @@ export default {
     }
   },
   methods: {
-    saveRecipe(payload) {
+    async saveRecipe(payload) {
       console.log("saveRecipe");
-      this.error = "";
-
-      if (this.selected.length) {
-        console.log("payload", payload);
-      } else {
-        this.error = "Por favor, selecione uma receita.";
+      payload.description = this.selected;
+      const { recipe, errors } = validateInputForm(payload);
+      this.errors = errors;
+      console.log("recipe", recipe);
+      if (!errors.length) {
+        console.log("recipe", recipe);
+        const response = this.recipesController.createCapitals(recipe);
+        if (response.error) this.errors = response.error;
+        this.recipe = {};
+        // this.generate();
       }
     },
     // removeRecipe(recipe) {
@@ -146,18 +153,18 @@ export default {
       // this.errorInputRecipe = "";
       console.log("addRecipe");
       const { recipe, error } = validateInputForm(payload);
-      this.error = error;
+      this.errors = error;
       if (!error.length) {
         this.recipe.description = recipe;
         const response = await this.recipesController.create(payload);
-        if (response.error) this.error = response.error;
+        if (response.error) this.errors = response.error;
         this.recipe = {};
         this.generateRecipes();
       }      
     },
     async generateRecipes() {
       const response = await this.recipesController.getAll();
-      if (response.error) this.error = response.error;
+      if (response.error) this.errors = response.error;
       else this.recipes = response;
     }
   },

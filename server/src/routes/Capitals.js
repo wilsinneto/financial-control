@@ -5,9 +5,6 @@
 
 // const capitalsController = new CapitalsController(Capitals);
 
-// router.get("/", (request, response) => capitalsController.getAll(request, response));
-// router.post("/", (request, response) => capitalsController.create(request, response));
-// // router.put("/recipes/:id", (request, response) => recipesController.update(request, response));
-// // router.delete("/recipes/:id", (request, response) => recipesController.delete(request, response));
+// router.post("/capitals", (request, response) => capitalsController.create(request, response));
 
 // module.exports = router;
