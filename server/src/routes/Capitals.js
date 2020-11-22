@@ -1,10 +1,12 @@
-// const express = require("express");
-// const router = express.Router();
-// const { CapitalsController } = require("../controllers/Capitals");
-// const { Capitals } = require("../models");
+const express = require("express");
+const router = express.Router();
+const CapitalsController = require("../controllers/Capitals");
+const { Recipes, Capitals } = require("../models");
 
-// const capitalsController = new CapitalsController(Capitals);
+const capitalsController = new CapitalsController(Recipes, Capitals);
 
-// router.post("/capitals", (request, response) => capitalsController.create(request, response));
+router.get("/", (request, response) => capitalsController.getAll(request, response));
+router.get("/recipes", (request, response) => capitalsController.getAllCapitalsWithRecipes(request, response));
+router.post("/", (request, response) => capitalsController.create(request, response));
 
-// module.exports = router;
+module.exports = router;

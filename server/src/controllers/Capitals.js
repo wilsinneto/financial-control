@@ -1,22 +1,39 @@
 class CapitalsController {
-  constructor(Capitals) {
+  constructor(Recipes, Capitals) {
+    this.Recipes = Recipes;
     this.Capitals = Capitals;
   }
-  
+  // verify this bellom methods make sense
+  async getAll(request, response) {
+    try {
+      const capitals = await this.Capitals.findAll();
+      return response.status(200).send(capitals);
+    } catch (error) {
+      return response.status(500).send({error: error.message});
+    }
+  }
+  async getAllCapitalsWithRecipes(request, response) {
+    try {
+      const capitals = await this.Recipes.findAll({ include: "received" });
+      return response.status(200).send(capitals);
+    } catch (error) {
+      return response.status(500).send({error: error.message});
+    }
+  }
   async create(request, response) {
-    const body = request.body;
-    console.log(body);
-    return response.status(200).send({});
-    // const verifyRecipe = { where: { description: capitalizeDescription }};
-    // try {
-    //   const recipeAlreadyExists = await this.Recipes.findOne(verifyRecipe);
-    //   if (recipeAlreadyExists) return response.status(409).send({ error: "Recipe already exists."});
-
-    //   await this.Recipes.create({ description: capitalizeDescription });
-    //   return response.status(201).send({});
-    // } catch (error) {
-    //   return response.status(500).send({ error: error.message });
-    // }
+    console.log("create");
+    var { description, value, date } = request.body;
+    if (value === "" || value === undefined) value = "00.0";
+    try {
+      const recipe = await this.Recipes.findOne({ where: { description } });
+      if (!recipe) return response.status(404).send({ error: "Recipe not exists."});
+      const recipeId = recipe.dataValues.id;
+      await this.Capitals.create({ value, data: date, recipeId });
+      return response.status(201).send({});
+    } catch (error) {
+      console.log("error.message", error.message);
+      return response.status(500).send({ error: error.message });
+    }
   }
 }
 

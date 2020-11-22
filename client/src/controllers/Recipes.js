@@ -87,19 +87,6 @@ class RecipesController {
       return { error: getMessage(matches) };
     }
   }
-  async createCapitals(payload) {
-    try {
-      const response = await execute(urlAPI.concat(`/capitals`), headerSave("POST", payload));
-      if (response.error) {
-        const [matches] = captureHttpStatusCode(response.message);
-        return { error: getMessage(matches) };
-      }
-      return response;
-    } catch (error) {
-      const [matches] = captureHttpStatusCode(error.message);
-      return { error: getMessage(matches) };
-    }
-  }
 }
 
 module.exports = RecipesController;

@@ -107,6 +107,7 @@
 <script>
 import { validateInputForm } from "../validate/RecipeWithCapitals";
 import RecipesController from "../controllers/Recipes";
+import CapitalsController from "../controllers/Capitals";
 
 export default {
   name: "Recipes",
@@ -125,7 +126,8 @@ export default {
         {id: 2, description: "trabalho", value: 12.25, date: "10/05/1993"},
         {id: 3, description: "vale transporte", value: 12.25, date: "10/05/1993"}
       ],
-      recipesController: {}
+      recipesController: {},
+      capitalsController: {},
     }
   },
   methods: {
@@ -134,10 +136,8 @@ export default {
       payload.description = this.selected;
       const { recipe, errors } = validateInputForm(payload);
       this.errors = errors;
-      console.log("recipe", recipe);
       if (!errors.length) {
-        console.log("recipe", recipe);
-        const response = this.recipesController.createCapitals(recipe);
+        const response = this.capitalsController.create(recipe);
         if (response.error) this.errors = response.error;
         this.recipe = {};
         // this.generate();
@@ -170,6 +170,7 @@ export default {
   },
   created() {
     this.recipesController = new RecipesController();
+    this.capitalsController = new CapitalsController();
     this.generateRecipes();
   }
 }
