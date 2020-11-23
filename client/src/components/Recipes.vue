@@ -55,16 +55,16 @@
           <input type="text" class="form-control" id="value" v-model="recipe.value" placeholder="0.00">
         </div>
         <div class="form-group col-md-2">
-          <label for="inputZip">Data de recebimento</label>
+          <label for="date">Data de recebimento</label>
           <input type="date" class="form-control" id="date" v-model="recipe.date">
         </div>
         <div class="form-group col-md-2 btnAdd">
-          <button type="submit" class="btn btn-primary" v-on:click.prevent="saveRecipe(recipe)">Salvar</button>
+          <button type="submit" class="btn btn-primary" v-on:click.prevent="saveRecipeWithCapitals(recipe)">Salvar</button>
         </div>
       </div>
     </form>
     <br/>
-    <!-- <div class="card">
+    <div class="card">
       <div class="card-body">
         <ul class="list-group">
           <li class="list-group-item disabled">
@@ -75,22 +75,22 @@
               <div class="col-md-2">Data</div>
             </div>
           </li>
-          <li class="list-group-item" v-for="recipe in recipes" v-bind:key="recipe.id">
+          <li class="list-group-item" v-for="capital in capitals" v-bind:key="capital.id">
             <div class="row">
-              <div class="col-md-1">{{recipe.id}}</div>
-              <div class="col-md-5">{{recipe.description}}</div>
-              <div class="col-md-2">{{recipe.value}}</div>
-              <div class="col-md-2">{{recipe.date}}</div>
+              <div class="col-md-1">{{capital.id}}</div>
+              <div class="col-md-5">{{capital.recipes.description}}</div>
+              <div class="col-md-2">{{capital.value}}</div>
+              <div class="col-md-2">{{capital.data}}</div>
               <div class="col-md-2 text-right">
                 <span
-                  v-on:click="updateRecipe(recipe)"
+                  v-on:click="updateRecipe(capital)"
                   class="btn btn-success"
                 >
                   <i class="fa fa-pencil"></i>
                 </span>
                 &nbsp;
                 <span
-                  v-on:click="removeRecipe(recipe)"
+                  v-on:click="removeCapitals(capital)"
                   class="btn btn-danger"
                 >
                   <i class="fa fa-trash"></i>
@@ -100,7 +100,7 @@
           </li>
         </ul>
       </div>
-    </div> -->
+    </div>
   </main>
 </template>
 
@@ -121,18 +121,14 @@ export default {
         date: Date
       },
       recipes: [],
-      recipesWithCaptals: [
-        {id: 1, description: "Salário", value: 12.25, date: "10/05/1993"},
-        {id: 2, description: "trabalho", value: 12.25, date: "10/05/1993"},
-        {id: 3, description: "vale transporte", value: 12.25, date: "10/05/1993"}
-      ],
+      capitals: [],
       recipesController: {},
       capitalsController: {},
     }
   },
   methods: {
-    async saveRecipe(payload) {
-      console.log("saveRecipe");
+    async saveRecipeWithCapitals(payload) {
+      console.log("saveRecipeWithCapitals");
       payload.description = this.selected;
       const { recipe, errors } = validateInputForm(payload);
       this.errors = errors;
@@ -140,17 +136,16 @@ export default {
         const response = this.capitalsController.create(recipe);
         if (response.error) this.errors = response.error;
         this.recipe = {};
-        // this.generate();
+        this.generateCapitals();
       }
     },
-    // removeRecipe(recipe) {
-    //   // kk
-    // },
+    removeCapitals(capitals) {
+      console.log("capitals", capitals);
+    },
     // updateRecipe(recipe) {
     //   // this.
     // },
     async addRecipe(payload) {
-      // this.errorInputRecipe = "";
       console.log("addRecipe");
       const { recipe, error } = validateInputForm(payload);
       this.errors = error;
@@ -162,6 +157,13 @@ export default {
         this.generateRecipes();
       }      
     },
+    async generateCapitals() {
+      console.log("generateCapitals");
+      const response = await this.capitalsController.getAll();
+      if (response.error) this.errors = response.error;
+      else this.capitals = response;
+      console.log("response", response);
+    },
     async generateRecipes() {
       const response = await this.recipesController.getAll();
       if (response.error) this.errors = response.error;
@@ -172,6 +174,7 @@ export default {
     this.recipesController = new RecipesController();
     this.capitalsController = new CapitalsController();
     this.generateRecipes();
+    this.generateCapitals();
   }
 }
 </script>

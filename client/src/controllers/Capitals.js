@@ -2,6 +2,15 @@ const { execute } = require("../services/Request");
 
 let urlAPI = "http://localhost:3000/capitals";
 
+const headerGetOrDelete = (method) => ({
+  method,
+  headers: {
+    "Content-Type": "application/json",
+    'Accept': 'application/json'
+  },
+  mode: "cors",
+  cache: "default",
+});
 const headerSave = (method, recipe) => ({
   method,
   headers: {
@@ -25,6 +34,19 @@ const getMessage = (status) =>
 
 class CapitalsController {
   constructor() {}
+  async getAll() {
+    try {
+      const response = await execute(urlAPI.concat("/recipes"), headerGetOrDelete("GET"));
+      if (response.error) {
+        const [matches] = captureHttpStatusCode(response.message);
+        return { error: getMessage(matches) };
+      }
+      return response;
+    } catch (error) {
+      const [matches] = captureHttpStatusCode(error.message);
+      return { error: getMessage(matches) };
+    }
+  }
   async create(payload) {
     try {
       const response = await execute(urlAPI, headerSave("POST", payload));
