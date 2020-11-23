@@ -1,13 +1,23 @@
-// function convertDate(inputDate) {
-//   function pad(s) { return (s < 10) ? "0" + s : s; }
-//   var date = new Date(inputDate);
-//   return [date.getFullYear(), pad(date.getMonth()+1), pad(date.getDate())].join("-");
-// }
-
 class CapitalsController {
   constructor(Recipes, Capitals) {
     this.Recipes = Recipes;
     this.Capitals = Capitals;
+  }
+  async update(request, response) {
+    const id = request.params.id;
+    var { description, value, date } = request.body;
+    const payload = { where: { id }};
+    if (value === "" || value === undefined) value = "00.0";
+    const verifyRecipe = { where: { description: description }};
+    try {
+      const recipeAlreadyExists = await this.Recipes.findOne(verifyRecipe);
+      if (!recipeAlreadyExists) return response.status(409).json({ error: "Recipe not exists."});
+      const recipeId = recipeAlreadyExists.dataValues.id;
+      await this.Capitals.update({ value, date, recipeId }, payload);
+      return response.status(200).send({});
+    } catch (error) {
+      return response.status(400).send({ error: error.message });
+    }
   }
   async delete(request, response) {
     console.log("delete");
@@ -41,7 +51,6 @@ class CapitalsController {
   async create(request, response) {
     console.log("Capitals create");
     var { description, value, date } = request.body;
-    console.log("description", description);
     if (value === "" || value === undefined) value = "00.0";
     try {
       const recipe = await this.Recipes.findOne({ where: { description } });

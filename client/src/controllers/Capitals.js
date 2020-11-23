@@ -34,6 +34,20 @@ const getMessage = (status) =>
 
 class CapitalsController {
   constructor() {}
+  async update(payload) {
+    try {
+      const response = await execute(urlAPI.concat(`/${payload.id}`), headerSave("PUT", payload));
+      console.log("response.error", response.error);
+      if (response.error) {
+        const [matches] = captureHttpStatusCode(response.message);
+        return { error: getMessage(matches) };
+      }
+      return response;
+    } catch (error) {
+      const [matches] = captureHttpStatusCode(error.message);
+      return { error: getMessage(matches) };
+    }
+  }
   async remove(payload) {
     console.log("remove payload", payload);
     try {

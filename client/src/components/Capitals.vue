@@ -80,7 +80,7 @@
               <div class="col-md-1">{{capital.id}}</div>
               <div class="col-md-5">{{capital.recipes.description}}</div>
               <div class="col-md-2">{{capital.value}}</div>
-              <div class="col-md-2">{{capital.date.split("T")[0]}}</div>
+              <div class="col-md-2">{{capital.date ? capital.date.split("T")[0] : ""}}</div>
               <div class="col-md-2 text-right">
                 <span
                   v-on:click="updateCapitals(capital)"
@@ -109,6 +109,7 @@ import { validateInputFormRecipes } from "../validate/RecipeValidate";
 import { validateInputFormCapitals } from "../validate/RecipeWithCapitals";
 import RecipesController from "../controllers/Recipes";
 import CapitalsController from "../controllers/Capitals";
+
 export default {
   name: "Recipes",
   data() {
@@ -133,10 +134,19 @@ export default {
       const { recipe, errors } = validateInputFormCapitals(payload);
       this.errors = errors;
       if (!errors.length) {
-        const response = this.capitalsController.create(recipe);
-        if (response.error) this.errors = response.error;
-        this.recipe = {};
-        this.generateCapitals();
+        if (payload.id) {
+          const response = await this.capitalsController.update(payload);
+          if (response.error) this.errors = response.error;
+          this.selected = "";
+          this.recipe = {};
+          this.generateCapitals();
+        } else {
+          const response = await this.capitalsController.create(recipe);
+          if (response.error) this.errors = response.error;
+          this.selected = "";
+          this.recipe = {};
+          this.generateCapitals();
+        }
       }
     },
     async removeCapitals(capitals) {
@@ -145,9 +155,11 @@ export default {
       if (response.error) this.error = response.error;
       this.generateCapitals();
     },
-    // updateCapitals(recipe) {
-    //   // this.
-    // },
+    updateCapitals(payload) {
+      console.log("updateCapitals");
+      this.selected = payload.recipes.description;
+      this.recipe = payload;
+    },
     async addRecipe(payload) {
       console.log("addRecipe");
       this.errors = [];
@@ -167,7 +179,6 @@ export default {
       const response = await this.capitalsController.getAll();
       if (response.error) this.errors = response.error;
       else this.capitals = response;
-      console.log("response", response);
     },
     async generateRecipes() {
       const response = await this.recipesController.getAll();
