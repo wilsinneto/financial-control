@@ -1,5 +1,5 @@
 let error = "";
-let recipe = {};
+let recipe = "";
 
 function isFieldsEmpty(recipe) {
   if (!recipe)
@@ -7,7 +7,7 @@ function isFieldsEmpty(recipe) {
 }
 
 function removeExtraSpace(recipe) {
-  recipe.replace(/\s+/g, " ");
+  return recipe.replace(/\s+/g, " ");
 }
 
 
@@ -23,14 +23,14 @@ function validateFields(payload) {
   recipe = payload;
   isFieldsEmpty(recipe);
   if (!error.length) {
-    removeExtraSpace(recipe);
+    recipe = removeExtraSpace(recipe);
     checkLengthName(recipe);
   }
   return { recipe, error };
 }
 
-exports.validateInputForm = (pyaload) => {
+exports.validateInputFormRecipes = (pyaload) => {
   error = "";
-  recipe = {};
+  recipe = "";
   return validateFields(pyaload.description);
 };

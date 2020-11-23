@@ -2,7 +2,7 @@
   <div id="app">
     <!-- <img alt="Vue logo" src="./assets/logo.png">
     <HelloWorld msg="Welcome to Your Vue.js App"/> -->
-    <Recipes></Recipes>
+    <Capitals></Capitals>
   </div>
 </template>
 
@@ -10,12 +10,12 @@
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/js/bootstrap.bundle";
 import "font-awesome/css/font-awesome.min.css";
-import Recipes from "./components/Recipes";
+import Capitals from "./components/Capitals";
 
 export default {
   name: 'App',
   components: {
-    Recipes
+    Capitals
   }
 }
 </script>

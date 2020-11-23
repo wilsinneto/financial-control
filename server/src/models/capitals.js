@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Capitals.init({
     value: DataTypes.STRING,
-    data: DataTypes.DATE,
+    date: DataTypes.DATE,
     recipeId: DataTypes.INTEGER
   }, {
     sequelize,

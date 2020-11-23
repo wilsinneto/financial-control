@@ -1,10 +1,10 @@
 const express = require("express");
-const recipeRouter = require("./Recipes");
+const recipesRouter = require("./Recipes");
 const capitalsRouter = require("./Capitals");
 
 const router = express.Router();
 
-router.use("/recipes", recipeRouter);
+router.use("/recipes", recipesRouter);
 router.use("/capitals", capitalsRouter);
 
 module.exports = router;

@@ -17,10 +17,8 @@ const headerSave = (method, recipe) => ({
     'Accept': 'application/json'
   },
   mode: "cors",
-  cache: "no-cache",
-  redirect: "follow",
-  referrerPolicy: "no-referrer",
-  body: JSON.stringify(recipe),
+  cache: "default",
+  body: JSON.stringify(recipe)
 });
 
 const captureHttpStatusCode = (string) => string.match(/(\d+)/);
@@ -75,6 +73,7 @@ class RecipesController {
     }
   }
   async create(payload) {
+    console.log("payload", payload);
     try {
       const response = await execute(urlAPI, headerSave("POST", payload));
       if (response.error) {

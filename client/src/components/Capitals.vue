@@ -80,10 +80,10 @@
               <div class="col-md-1">{{capital.id}}</div>
               <div class="col-md-5">{{capital.recipes.description}}</div>
               <div class="col-md-2">{{capital.value}}</div>
-              <div class="col-md-2">{{capital.data}}</div>
+              <div class="col-md-2">{{capital.date.split("T")[0]}}</div>
               <div class="col-md-2 text-right">
                 <span
-                  v-on:click="updateRecipe(capital)"
+                  v-on:click="updateCapitals(capital)"
                   class="btn btn-success"
                 >
                   <i class="fa fa-pencil"></i>
@@ -105,10 +105,10 @@
 </template>
 
 <script>
-import { validateInputForm } from "../validate/RecipeWithCapitals";
+import { validateInputFormRecipes } from "../validate/RecipeValidate";
+import { validateInputFormCapitals } from "../validate/RecipeWithCapitals";
 import RecipesController from "../controllers/Recipes";
 import CapitalsController from "../controllers/Capitals";
-
 export default {
   name: "Recipes",
   data() {
@@ -130,7 +130,7 @@ export default {
     async saveRecipeWithCapitals(payload) {
       console.log("saveRecipeWithCapitals");
       payload.description = this.selected;
-      const { recipe, errors } = validateInputForm(payload);
+      const { recipe, errors } = validateInputFormCapitals(payload);
       this.errors = errors;
       if (!errors.length) {
         const response = this.capitalsController.create(recipe);
@@ -139,17 +139,22 @@ export default {
         this.generateCapitals();
       }
     },
-    removeCapitals(capitals) {
-      console.log("capitals", capitals);
+    async removeCapitals(capitals) {
+      console.log("removeCapitals");
+      const response = await this.capitalsController.remove(capitals);
+      if (response.error) this.error = response.error;
+      this.generateCapitals();
     },
-    // updateRecipe(recipe) {
+    // updateCapitals(recipe) {
     //   // this.
     // },
     async addRecipe(payload) {
       console.log("addRecipe");
-      const { recipe, error } = validateInputForm(payload);
-      this.errors = error;
+      this.errors = [];
+      const { recipe, error } = validateInputFormRecipes(payload);
+      this.errors.push(error);
       if (!error.length) {
+        this.errors = [];
         this.recipe.description = recipe;
         const response = await this.recipesController.create(payload);
         if (response.error) this.errors = response.error;

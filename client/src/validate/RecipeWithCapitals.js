@@ -14,7 +14,7 @@ function validateFields(payload) {
   return { recipe, errors };
 }
 
-exports.validateInputForm = (payload) => {
+exports.validateInputFormCapitals = (payload) => {
   errors = [];
   recipe = {};
   return validateFields(payload);

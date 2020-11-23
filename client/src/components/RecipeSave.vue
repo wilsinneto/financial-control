@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import { validateInputForm } from "../validate/RecipeValidate";
+import { validateInputFormRecipes } from "../validate/RecipeValidate";
 import RecipesController from '../controllers/Recipes';
 
 export default {
@@ -75,16 +75,19 @@ export default {
       this.generateRecipes();
     },
     async addRecipe(payload) {
-      const { recipe, error } = validateInputForm(payload);
+      console.log("addRecipe", payload);
+      const { recipe, error } = validateInputFormRecipes(payload);
       this.error = error;
       if (!error.length) {
         payload.description = recipe;
         if (payload.id) {
+          console.log("recipe", payload.description);
           const response = await this.recipesController.update(payload);
           if (response.error) this.error = response.error;
           this.recipe = {};
           this.generateRecipes();
         } else {
+          console.log("recipe", payload.description);
           const response = await this.recipesController.create(payload);
           if (response.error) this.error = response.error;
           this.recipe = {};

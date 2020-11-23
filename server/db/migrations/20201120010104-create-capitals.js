@@ -11,7 +11,7 @@ module.exports = {
       value: {
         type: Sequelize.STRING
       },
-      data: {
+      date: {
         type: Sequelize.DATE
       },
       recipeId: {

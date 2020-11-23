@@ -48,9 +48,12 @@ class RecipesController {
   }
 
   async create(request, response) {
+    console.log("Recipes - create");
     const body = request.body;
+    console.log("body", body);
     const capitalizeDescription = capitalizeFirstLetter(body.description);
     const verifyRecipe = { where: { description: capitalizeDescription }};
+    console.log("verifyRecipe", verifyRecipe);
     try {
       const recipeAlreadyExists = await this.Recipes.findOne(verifyRecipe);
       if (recipeAlreadyExists) return response.status(409).send({ error: "Recipe already exists."});
