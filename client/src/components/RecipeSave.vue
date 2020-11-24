@@ -1,6 +1,9 @@
 <template>
   <main id="recipes">
     <div class="container">
+      <a href=""><router-link to="/capitals">Voltar</router-link></a>
+      <br/>
+      <br/>
       <div class="col">
         <div class="alert alert-danger" role="alert" v-if="error.length">
           <b>{{ error }}</b>
