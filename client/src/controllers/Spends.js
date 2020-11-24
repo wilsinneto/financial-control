@@ -1,6 +1,6 @@
 const { execute } = require("../services/Request");
 
-let urlAPI = "http://localhost:3000/capitals";
+let urlAPI = "http://localhost:3000/spends";
 
 const headerGetOrDelete = (method) => ({
   method,
@@ -24,20 +24,19 @@ const headerSave = (method, payload) => ({
   body: JSON.stringify(payload),
 });
 
-const captureHttpStatusCode = (string) => string.match(/(\d+)/);
+const captureHttpStatusCode = (status) => status.match(/(\d+)/);
 const getMessage = (status) => 
   ({
-    404: "Receita não encontrado.",
-    409: "Receita já existe.",
+    404: "Despesa não encontrado.",
+    409: "Despesa já existe.",
     500: "Error Interno",
   }[status] || "");
 
-class CapitalsController {
+class SpendsController {
   constructor() {}
   async update(payload) {
     try {
       const response = await execute(urlAPI.concat(`/${payload.id}`), headerSave("PUT", payload));
-      console.log("response.error", response.error);
       if (response.error) {
         const [matches] = captureHttpStatusCode(response.message);
         return { error: getMessage(matches) };
@@ -64,7 +63,7 @@ class CapitalsController {
   }
   async getAll() {
     try {
-      const response = await execute(urlAPI.concat("/recipes"), headerGetOrDelete("GET"));
+      const response = await execute(urlAPI.concat("/expenses"), headerGetOrDelete("GET"));
       if (response.error) {
         const [matches] = captureHttpStatusCode(response.message);
         return { error: getMessage(matches) };
@@ -90,4 +89,4 @@ class CapitalsController {
   }
 }
 
-module.exports = CapitalsController;
+module.exports = SpendsController;
