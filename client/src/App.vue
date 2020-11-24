@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <Expenses/>
   </div>
 </template>
 
@@ -8,9 +8,13 @@
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/js/bootstrap.bundle";
 import "font-awesome/css/font-awesome.min.css";
+import Expenses from "./components/Expenses";
 
 export default {
   name: 'App',
+  components: {
+    Expenses
+  }
 }
 </script>
 

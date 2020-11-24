@@ -30,7 +30,6 @@ class RecipesController {
         console.log("Recipe already exists.");
         return response.status(409).json({ error: "Recipe already exists."});
       }
-
       await this.Recipes.update({ description: capitalizeDescription }, payload);
       return response.status(200).send({});
     } catch (error) {
