@@ -1,43 +1,13 @@
-const { execute } = require("../services/Request");
+const { execute, headerGetOrDelete, headerSave } = require("../utils/Request");
+const { captureHttpStatusCode, getMessage } = require("../utils/ResponseMessage");
 
 let urlAPI = "http://localhost:3000/capitals";
-
-const headerGetOrDelete = (method) => ({
-  method,
-  headers: {
-    "Content-Type": "application/json",
-    'Accept': 'application/json'
-  },
-  mode: "cors",
-  cache: "default",
-});
-const headerSave = (method, payload) => ({
-  method,
-  headers: {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json'
-  },
-  mode: "cors",
-  cache: "no-cache",
-  redirect: "follow",
-  referrerPolicy: "no-referrer",
-  body: JSON.stringify(payload),
-});
-
-const captureHttpStatusCode = (string) => string.match(/(\d+)/);
-const getMessage = (status) => 
-  ({
-    404: "Receita não encontrado.",
-    409: "Receita já existe.",
-    500: "Error Interno",
-  }[status] || "");
 
 class CapitalsController {
   constructor() {}
   async update(payload) {
     try {
       const response = await execute(urlAPI.concat(`/${payload.id}`), headerSave("PUT", payload));
-      console.log("response.error", response.error);
       if (response.error) {
         const [matches] = captureHttpStatusCode(response.message);
         return { error: getMessage(matches) };
@@ -49,7 +19,6 @@ class CapitalsController {
     }
   }
   async remove(payload) {
-    console.log("remove payload", payload);
     try {
       const response = await execute(urlAPI.concat(`/${payload.id}`), headerGetOrDelete("DELETE"));
       if (response.error) {

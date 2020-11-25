@@ -1,33 +1,7 @@
-const { execute } = require("../services/Request");
+const { execute, headerGetOrDelete, headerSave } = require("../utils/Request");
+const { captureHttpStatusCode, getMessage } = require("../utils/ResponseMessage");
 
 let urlAPI = "http://localhost:3000/recipes";
-const headerGetOrDelete = (method) => ({
-  method,
-  headers: {
-    "Content-Type": "application/json",
-    'Accept': 'application/json'
-  },
-  mode: "cors",
-  cache: "default",
-});
-const headerSave = (method, recipe) => ({
-  method,
-  headers: {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json'
-  },
-  mode: "cors",
-  cache: "default",
-  body: JSON.stringify(recipe)
-});
-
-const captureHttpStatusCode = (string) => string.match(/(\d+)/);
-const getMessage = (status) => 
-  ({
-    404: "Receita não encontrado.",
-    409: "Receita já existe.",
-    500: "Error Interno",
-  }[status] || "");
 
 class RecipesController {
   constructor() {}
@@ -73,7 +47,6 @@ class RecipesController {
     }
   }
   async create(payload) {
-    console.log("payload", payload);
     try {
       const response = await execute(urlAPI, headerSave("POST", payload));
       if (response.error) {

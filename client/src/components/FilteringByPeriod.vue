@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import { validateInputFormPeriod } from "../validate/PeriodValidate";
+import { validateInputFormPeriod } from "../utils/validate/PeriodValidate";
 import FilteringByPeriodController from "../controllers/FilteringByPeriod";
 
 export default {

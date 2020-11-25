@@ -1,6 +1,5 @@
-function capitalizeFirstLetter(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}
+const { capitalizeFirstLetter } = require("../utils/CapitalizeText");
+const { optionsId, optionsDescription } = require("../utils/OptionsSequelizeNormalize");
 
 class RecipesController {
   constructor(Recipes) {
@@ -9,7 +8,7 @@ class RecipesController {
 
   async delete(request, response) {
     const id = request.params.id;
-    const payload = { where: { id }};
+    const payload = optionsId(id);
     try {
       await this.Recipes.destroy(payload);
       return response.status(200).send({});
@@ -22,12 +21,11 @@ class RecipesController {
     const id = request.params.id;
     const body = request.body;
     const capitalizeDescription = capitalizeFirstLetter(body.description);
-    const payload = { where: { id }};
-    const verifyRecipe = { where: { description: capitalizeDescription }}
+    const payload = optionsId(id);
+    const verifyDescription = optionsDescription(capitalizeDescription);
     try {
-      const recipeAlreadyExists = await this.Recipes.findOne(verifyRecipe);
+      const recipeAlreadyExists = await this.Recipes.findOne(verifyDescription);
       if (recipeAlreadyExists) {
-        console.log("Recipe already exists.");
         return response.status(409).json({ error: "Recipe already exists."});
       }
       await this.Recipes.update({ description: capitalizeDescription }, payload);
@@ -39,8 +37,8 @@ class RecipesController {
 
   async getAll(request, response) {
     try {
-      const recipes = await this.Recipes.findAll();
-      return response.status(200).send(recipes);
+      const data = await this.Recipes.findAll();
+      return response.status(200).send(data);
     } catch (error) {
       return response.status(500).send({error: error.message});
     }
@@ -51,11 +49,10 @@ class RecipesController {
     const body = request.body;
     console.log("body", body);
     const capitalizeDescription = capitalizeFirstLetter(body.description);
-    const verifyRecipe = { where: { description: capitalizeDescription }};
-    console.log("verifyRecipe", verifyRecipe);
+    const verifyDescription = optionsDescription(capitalizeDescription);
     try {
-      const recipeAlreadyExists = await this.Recipes.findOne(verifyRecipe);
-      if (recipeAlreadyExists) return response.status(409).send({ error: "Recipe already exists."});
+      const descriptionAlreadyExists = await this.Recipes.findOne(verifyDescription);
+      if (descriptionAlreadyExists) return response.status(409).send({ error: "Recipe already exists."});
 
       await this.Recipes.create({ description: capitalizeDescription });
       return response.status(201).send({});

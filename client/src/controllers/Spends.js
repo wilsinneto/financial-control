@@ -1,36 +1,7 @@
-const { execute } = require("../services/Request");
+const { execute, headerGetOrDelete, headerSave } = require("../utils/Request");
+const { captureHttpStatusCode, getMessage } = require("../utils/ResponseMessage");
 
 let urlAPI = "http://localhost:3000/spends";
-
-const headerGetOrDelete = (method) => ({
-  method,
-  headers: {
-    "Content-Type": "application/json",
-    'Accept': 'application/json'
-  },
-  mode: "cors",
-  cache: "default",
-});
-const headerSave = (method, payload) => ({
-  method,
-  headers: {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json'
-  },
-  mode: "cors",
-  cache: "no-cache",
-  redirect: "follow",
-  referrerPolicy: "no-referrer",
-  body: JSON.stringify(payload),
-});
-
-const captureHttpStatusCode = (status) => status.match(/(\d+)/);
-const getMessage = (status) => 
-  ({
-    404: "Despesa não encontrado.",
-    409: "Despesa já existe.",
-    500: "Error Interno",
-  }[status] || "");
 
 class SpendsController {
   constructor() {}
@@ -48,7 +19,6 @@ class SpendsController {
     }
   }
   async remove(payload) {
-    console.log("remove payload", payload);
     try {
       const response = await execute(urlAPI.concat(`/${payload.id}`), headerGetOrDelete("DELETE"));
       if (response.error) {

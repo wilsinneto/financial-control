@@ -1,4 +1,5 @@
-const { Sequelize } = require("sequelize");
+const { oneLessDate } = require("../utils/DateNormalize");
+const { optionsBetweenDate } = require("../utils/OptionsSequelizeNormalize");
 
 class SpendsController {
   constructor(Expenses, Spends) {
@@ -6,21 +7,13 @@ class SpendsController {
     this.Spends = Spends;
   }
   async getPeriod(request, response) {
+    console.log("getPeriod");
     var { startDate, endDate } = request.params;
-    var oneLessStartDate = new Date(startDate);
-    oneLessStartDate.setDate( oneLessStartDate.getDate() -1 );
-    const Op = Sequelize.Op;
-    const payload = {
-      where: {
-        date: {
-          [Op.between]: [oneLessStartDate, endDate]
-        }
-      },
-      include: "expenses"
-    };
+    var oneLessStartDate = oneLessDate(startDate);
     try {
-      const spends = await this.Spends.findAll(payload);
-      return response.status(200).send(spends);
+      const options = optionsBetweenDate(oneLessStartDate, endDate);
+      const data = await this.Spends.findAll(options);
+      return response.status(200).send(data);
     } catch (error) {
       return response.status(500).send({error: error.message});
     }
@@ -44,7 +37,6 @@ class SpendsController {
   async delete(request, response) {
     console.log("delete");
     const id = request.params.id;
-    console.log("request.params.id", id);
     const payload = { where: { id } };
     try {
       await this.Spends.destroy(payload);

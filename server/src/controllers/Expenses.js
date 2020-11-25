@@ -1,6 +1,5 @@
-function capitalizeFirstLetter(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}
+const { capitalizeFirstLetter } = require("../utils/CapitalizeText");
+const { optionsId, optionsDescription } = require("../utils/OptionsSequelizeNormalize");
 
 class ExpensesController {
   constructor(Expenses) {
@@ -10,8 +9,8 @@ class ExpensesController {
     const id = request.params.id;
     const body = request.body;
     const capitalizeDescription = capitalizeFirstLetter(body.description);
-    const payload = { where: { id }};
-    const verifyDescription = { where: { description: capitalizeDescription }}
+    const payload = optionsId(id);
+    const verifyDescription = optionsDescription(capitalizeDescription);
     try {
       const recipeAlreadyExists = await this.Expenses.findOne(verifyDescription);
       if (recipeAlreadyExists) return response.status(409).json({ error: "Recipe already exists."});
@@ -23,7 +22,7 @@ class ExpensesController {
   }
   async delete(request, response) {
     const id = request.params.id;
-    const payload = { where: { id }};
+    const payload = optionsId(id);
     try {
       await this.Expenses.destroy(payload);
       return response.status(200).send({});
@@ -40,10 +39,10 @@ class ExpensesController {
     }
   }
   async create(request, response) {
-    console.log("Expenses - create");
+    console.log("Create");
     const body = request.body;
     const capitalizeDescription = capitalizeFirstLetter(body.description);
-    const verifyDescription = { where: { description: capitalizeDescription }};
+    const verifyDescription = optionsDescription(capitalizeDescription);
     try {
       const recipeAlreadyExists = await this.Expenses.findOne(verifyDescription);
       if (recipeAlreadyExists) return response.status(409).send({ error: "Recipe already exists."});

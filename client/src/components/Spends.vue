@@ -112,8 +112,8 @@
 </template>
 
 <script>
-import { validateInputFormExpenses } from "../validate/ExpenseValidate";
-import { validateInputFormSpend } from "../validate/Spends";
+import { validateInputFormExpenses } from "../utils/validate/ExpenseValidate";
+import { validateInputFormSpend } from "../utils/validate/Spends";
 import ExpensesController from "../controllers/Expenses";
 import SpendsController from "../controllers/Spends";
 
@@ -143,15 +143,17 @@ export default {
       if (!errors.length) {
         if (payload.id) {
           const response = await this.spendsController.update(payload);
-          if (response.error) this.errors = response.error;
+          if (response.error) this.errors.push(response.error);
           this.selected = "";
           this.expense = {};
+          this.expense.date = Date;
           this.generateSpends();
         } else {
           const response = await this.spendsController.create(expense);
-          if (response.error) this.errors = response.error;
+          if (response.error) this.errors.push(response.error);
           this.selected = "";
           this.expense = {};
+          this.expense.date = Date;
           this.generateSpends();
         }
       }
@@ -159,7 +161,7 @@ export default {
     async removeSpends(payload) {
       console.log("removeSpends");
       const response = await this.spendsController.remove(payload);
-      if (response.error) this.error = response.error;
+      if (response.error) this.errors.push(response.error);
       this.generateSpends();
     },
     updateSpends(payload) {
@@ -171,12 +173,12 @@ export default {
       console.log("addExpense");
       this.errors = [];
       const { expense, error } = validateInputFormExpenses(payload);
-      this.errors.push(error);
+      this.errors = error;
       if (!error.length) {
         this.errors = [];
         this.expense.description = expense;
         const response = await this.expensesController.create(payload);
-        if (response.error) this.errors = response.error;
+        if (response.error) this.errors.push(response.error);
         this.expense = {};
         this.generateExpenses();
       }      
@@ -185,14 +187,14 @@ export default {
       console.log("generateSpends");
       this.spendsController = new SpendsController();
       const response = await this.spendsController.getAll();
-      if (response.error) this.errors = response.error;
+      if (response.error) this.errors.push(response.error);
       else this.spends = response;
     },
     async generateExpenses() {
       console.log("generateExpenses");
       this.expensesController = new ExpensesController();
       const response = await this.expensesController.getAll();
-      if (response.error) this.errors = response.error;
+      if (response.error) this.errors.push(response.error);
       else this.expenses = response;
     }
   },

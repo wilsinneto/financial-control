@@ -111,8 +111,8 @@
 </template>
 
 <script>
-import { validateInputFormRecipes } from "../validate/RecipeValidate";
-import { validateInputFormCapitals } from "../validate/RecipeWithCapitals";
+import { validateInputFormRecipes } from "../utils/validate/RecipeValidate";
+import { validateInputFormCapitals } from "../utils/validate/RecipeWithCapitals";
 import RecipesController from "../controllers/Recipes";
 import CapitalsController from "../controllers/Capitals";
 
@@ -142,15 +142,17 @@ export default {
       if (!errors.length) {
         if (payload.id) {
           const response = await this.capitalsController.update(payload);
-          if (response.error) this.errors = response.error;
+          if (response.error) this.errors.push(response.error);
           this.selected = "";
           this.recipe = {};
+          this.recipe.date = Date;
           this.generateCapitals();
         } else {
           const response = await this.capitalsController.create(recipe);
-          if (response.error) this.errors = response.error;
+          if (response.error) this.errors.push(response.error);
           this.selected = "";
           this.recipe = {};
+          this.recipe.date = Date;
           this.generateCapitals();
         }
       }
@@ -158,7 +160,7 @@ export default {
     async removeCapitals(capitals) {
       console.log("removeCapitals");
       const response = await this.capitalsController.remove(capitals);
-      if (response.error) this.error = response.error;
+      if (response.error) this.error.push(response.error);
       this.generateCapitals();
     },
     updateCapitals(payload) {
@@ -170,31 +172,32 @@ export default {
       console.log("addRecipe");
       this.errors = [];
       const { recipe, error } = validateInputFormRecipes(payload);
-      this.errors.push(error);
+      this.errors = error;
       if (!error.length) {
         this.errors = [];
         this.recipe.description = recipe;
         const response = await this.recipesController.create(payload);
-        if (response.error) this.errors = response.error;
+        if (response.error) this.errors.push(response.error);
         this.recipe = {};
         this.generateRecipes();
       }      
     },
     async generateCapitals() {
       console.log("generateCapitals");
+      this.capitalsController = new CapitalsController();
       const response = await this.capitalsController.getAll();
-      if (response.error) this.errors = response.error;
+      if (response.error) this.errors.push(response.error);
       else this.capitals = response;
     },
     async generateRecipes() {
+      console.log("generateRecipes");
+      this.recipesController = new RecipesController();
       const response = await this.recipesController.getAll();
       if (response.error) this.errors = response.error;
       else this.recipes = response;
     }
   },
   created() {
-    this.recipesController = new RecipesController();
-    this.capitalsController = new CapitalsController();
     this.generateRecipes();
     this.generateCapitals();
   }

@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import { validateInputFormRecipes } from "../validate/RecipeValidate";
+import { validateInputFormRecipes } from "../utils/validate/RecipeValidate";
 import RecipesController from '../controllers/Recipes';
 
 export default {
@@ -97,13 +97,13 @@ export default {
       }
     },
     async generateRecipes() {
+      this.recipesController = new RecipesController();
       const response = await this.recipesController.getAll();
       if (response.error) this.error = response.error;
       else this.recipes = response;
     },
   },
   created() {
-    this.recipesController = new RecipesController();
     this.generateRecipes();
   },
 }

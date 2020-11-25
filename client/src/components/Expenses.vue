@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import { validateInputFormExpenses } from "../validate/ExpenseValidate";
+import { validateInputFormExpenses } from "../utils/validate/ExpenseValidate";
 import ExpensesController from "../controllers/Expenses";
 
 export default {
@@ -97,13 +97,13 @@ export default {
       }
     },
     async generateExpenses() {
+      this.expensesController = new ExpensesController();
       const response = await this.expensesController.getAll();
       if (response.error) this.error = response.error;
       else this.expenses = response;
     }
   },
   created() {
-    this.expensesController = new ExpensesController();
     this.generateExpenses();
   }
 }
