@@ -2,23 +2,33 @@
   <main id="main">
     <h1>Olá, Seja bem vindo ao seu sistema de controle financeiro!</h1>
     <section class="section">
-      <a class="link" rel="capitals">
-        <router-link to="/capitals">
-          <div class="item">
-            Receitas
-          </div>
-        </router-link>
+      <a class="link" rel="capitals" v-on:click="toCapitals()">
+        <div class="item">
+          Receitas
+        </div>
       </a>
-      <a class="link" rel="spends">
-        <router-link to="/spends">
-          <div class="item">
-            Despesas
-          </div>
-        </router-link>
+      <a class="link" rel="spends" v-on:click="toSpends()">
+        <div class="item">
+          Despesas
+        </div>
       </a>
     </section>
   </main>
 </template>
+
+<script>
+export default {
+  app: "Home",
+  methods: {
+    toCapitals() {
+      this.$router.push("/capitals");
+    },
+    toSpends() {
+      this.$router.push("/spends");
+    }
+  }
+}
+</script>
 
 <style>
 #main {
@@ -42,6 +52,7 @@
   text-transform: uppercase;
   font-size: 20px;
   font-weight: bold;
+  cursor: pointer;
   background-color: #ccc;
 }
 .item{
