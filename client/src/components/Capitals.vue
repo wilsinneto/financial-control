@@ -1,7 +1,8 @@
 <template>
   <main id="recipes">
     <div class="container">
-      <a href=""><router-link to="/">Home</router-link></a>
+      <a href="" class="routerLink"><router-link to="/">Home</router-link></a>
+      <a href="" class="routerLink"><router-link to="/spends">Despesas</router-link></a>
       <br/>
       <br/>
       <div class="col">
@@ -207,7 +208,7 @@ export default {
 .btnAdd {
   margin-top: 32px;
 }
-#hidden{
-  opacity: 0;
+.routerLink{
+  margin-right: 8px;
 }
 </style>

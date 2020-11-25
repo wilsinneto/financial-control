@@ -1,9 +1,11 @@
 <template>
   <main id="spends">
     <div class="container">
-      <!-- <a href=""><router-link to="/">Home</router-link></a>
+      <a class="routerLink"><router-link to="/">Home</router-link></a>
+      <a class="routerLink"><router-link to="/capitals">Capitals</router-link></a>
+      <a class="period"><router-link to="/period">Buscar por data</router-link></a>
       <br/>
-      <br/> -->
+      <br/>
       <div class="col">
         <div class="alert alert-danger" role="alert" v-if="errors.length">
           <b>Por favor, corrija o(s) seguinte(s) erro(s):</b>
@@ -15,7 +17,7 @@
       <form>
         <div class="form-row">
           <div class="form-group col-md-5">
-            <label>Despesa</label>
+            <label><router-link to="/recipes">Despesa</router-link></label>
             <select id="inputState" class="form-control" v-model="selected">
                 <option disabled value="">Por favor, selecione um</option>
               <option v-for="expense in expenses" :key="expense.id">
@@ -208,7 +210,10 @@ export default {
 .btnAdd {
   margin-top: 32px;
 }
-#hidden{
-  opacity: 0;
+.routerLink {
+  margin-right: 8px;
+}
+.period {
+  margin-left: 30px;
 }
 </style>

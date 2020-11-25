@@ -1,9 +1,9 @@
 <template>
   <main id="recipes">
     <div class="container">
-      <!-- <a href=""><router-link to="/capitals">Voltar</router-link></a>
+      <a href=""><router-link to="/capitals">Voltar</router-link></a>
       <br/>
-      <br/> -->
+      <br/>
       <div class="col">
         <div class="alert alert-danger" role="alert" v-if="error.length">
           <b>{{ error }}</b>
@@ -84,13 +84,11 @@ export default {
       if (!error.length) {
         payload.description = recipe;
         if (payload.id) {
-          console.log("recipe", payload.description);
           const response = await this.recipesController.update(payload);
           if (response.error) this.error = response.error;
           this.recipe = {};
           this.generateRecipes();
         } else {
-          console.log("recipe", payload.description);
           const response = await this.recipesController.create(payload);
           if (response.error) this.error = response.error;
           this.recipe = {};
