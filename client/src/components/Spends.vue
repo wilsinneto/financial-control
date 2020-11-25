@@ -5,17 +5,17 @@
       <br/>
       <br/> -->
       <div class="col">
-          <div class="alert alert-danger" role="alert" v-if="errors.length">
-            <b>Por favor, corrija o(s) seguinte(s) erro(s):</b>
-            <ul>
-              <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
-            </ul>
-          </div>
+        <div class="alert alert-danger" role="alert" v-if="errors.length">
+          <b>Por favor, corrija o(s) seguinte(s) erro(s):</b>
+          <ul>
+            <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
+          </ul>
         </div>
+      </div>
       <form>
         <div class="form-row">
           <div class="form-group col-md-5">
-            <label>Expense</label>
+            <label>Despesa</label>
             <select id="inputState" class="form-control" v-model="selected">
                 <option disabled value="">Por favor, selecione um</option>
               <option v-for="expense in expenses" :key="expense.id">
@@ -181,20 +181,20 @@ export default {
     },
     async generateSpends() {
       console.log("generateSpends");
+      this.spendsController = new SpendsController();
       const response = await this.spendsController.getAll();
       if (response.error) this.errors = response.error;
       else this.spends = response;
     },
     async generateExpenses() {
       console.log("generateExpenses");
+      this.expensesController = new ExpensesController();
       const response = await this.expensesController.getAll();
       if (response.error) this.errors = response.error;
       else this.expenses = response;
     }
   },
   created() {
-    this.expensesController = new ExpensesController();
-    this.spendsController = new SpendsController();
     this.generateExpenses();
     this.generateSpends();
   }

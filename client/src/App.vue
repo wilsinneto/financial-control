@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Spends/>
+    <filtering-by-period/>
   </div>
 </template>
 
@@ -8,13 +8,11 @@
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/js/bootstrap.bundle";
 import "font-awesome/css/font-awesome.min.css";
-import Spends from "./components/Spends";
+import FilteringByPeriod from './components/FilteringByPeriod.vue';
 
 export default {
+  components: { FilteringByPeriod },
   name: 'App',
-  components: {
-    Spends
-  }
 }
 </script>
 

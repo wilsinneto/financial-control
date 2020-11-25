@@ -1,7 +1,29 @@
+const { Sequelize } = require("sequelize");
+
 class SpendsController {
   constructor(Expenses, Spends) {
     this.Expenses = Expenses;
     this.Spends = Spends;
+  }
+  async getPeriod(request, response) {
+    var { startDate, endDate } = request.params;
+    var oneLessStartDate = new Date(startDate);
+    oneLessStartDate.setDate( oneLessStartDate.getDate() -1 );
+    const Op = Sequelize.Op;
+    const payload = {
+      where: {
+        date: {
+          [Op.between]: [oneLessStartDate, endDate]
+        }
+      },
+      include: "expenses"
+    };
+    try {
+      const spends = await this.Spends.findAll(payload);
+      return response.status(200).send(spends);
+    } catch (error) {
+      return response.status(500).send({error: error.message});
+    }
   }
   async update(request, response) {
     const id = request.params.id;
@@ -29,15 +51,6 @@ class SpendsController {
       return response.status(200).send({});
     } catch (error) {
       return response.status(200).send({ error: error.message });
-    }
-  }
-  // verify this bellom method make sense
-  async getAll(request, response) {
-    try {
-      const spends = await this.Spends.findAll();
-      return response.status(200).send(spends);
-    } catch (error) {
-      return response.status(500).send({error: error.message});
     }
   }
   async getAllSpends(request, response) {

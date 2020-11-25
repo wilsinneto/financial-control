@@ -5,7 +5,7 @@ const { Expenses, Spends } = require("../models");
 
 const spendsController = new SpendsController(Expenses, Spends);
 
-router.get("/", (request, response) => spendsController.getAll(request, response));
+router.get("/:startDate/:endDate", (request, response) => spendsController.getPeriod(request, response));
 router.get("/expenses", (request, response) => spendsController.getAllSpends(request, response));
 router.post("/", (request, response) => spendsController.create(request, response));
 router.put("/:id", (request, response) => spendsController.update(request, response));
