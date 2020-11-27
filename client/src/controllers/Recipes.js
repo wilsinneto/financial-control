@@ -47,6 +47,7 @@ class RecipesController {
     }
   }
   async create(payload) {
+    console.log("capitals create", payload);
     try {
       const response = await execute(urlAPI, headerSave("POST", payload));
       if (response.error) {

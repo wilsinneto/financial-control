@@ -14,9 +14,6 @@ exports.headerSave = (method, payload) => ({
     'Accept': 'application/json'
   },
   mode: "cors",
-  cache: "no-cache",
-  redirect: "follow",
-  referrerPolicy: "no-referrer",
   body: JSON.stringify(payload),
 });
 exports.execute = async (url, header) => {

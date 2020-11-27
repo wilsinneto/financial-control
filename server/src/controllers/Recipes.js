@@ -45,9 +45,9 @@ class RecipesController {
   }
 
   async create(request, response) {
-    console.log("Recipes - create");
+    console.log("create");
     const body = request.body;
-    console.log("body", body);
+    delete body.value;
     const capitalizeDescription = capitalizeFirstLetter(body.description);
     const verifyDescription = optionsDescription(capitalizeDescription);
     try {

@@ -25,11 +25,11 @@ yarn serve
 
 ### Referências de Configuração
 #### Referências de Front-End
-Veja [Vue.js](https://cli.vuejs.org/config/).
-Veja [Vue Router](https://router.vuejs.org/).
-Veja [Bootstrap](https://getbootstrap.com/).
-Veja [Fontawesome](https://fontawesome.com).
+<b>1</b> - [Vue.js](https://cli.vuejs.org/config/). <br /> 
+<b>2</b> - [Vue Router](https://router.vuejs.org/). <br />
+<b>3</b> - [Bootstrap](https://getbootstrap.com/). <br />
+<b>4</b> - [Fontawesome](https://fontawesome.com). <br />
 #### Referências de Back-End
-Veja [Express.js](https://expressjs.com/).
-Veja [Sequelize](https://sequelize.org/).
-Veja [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS).
+<b>1</b> - [Express.js](https://expressjs.com/). <br />
+<b>2</b> - [Sequelize](https://sequelize.org/). <br />
+<b>3</b> - [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS).

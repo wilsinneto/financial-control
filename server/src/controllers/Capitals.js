@@ -31,15 +31,15 @@ class CapitalsController {
       return response.status(200).send({ error: error.message });
     }
   }
-  // verify this bellom method make sense
-  async getAll(request, response) {
-    try {
-      const capitals = await this.Capitals.findAll();
-      return response.status(200).send(capitals);
-    } catch (error) {
-      return response.status(500).send({error: error.message});
-    }
-  }
+  // // verify this bellom method make sense
+  // async getAll(request, response) {
+  //   try {
+  //     const capitals = await this.Capitals.findAll();
+  //     return response.status(200).send(capitals);
+  //   } catch (error) {
+  //     return response.status(500).send({error: error.message});
+  //   }
+  // }
   async getAllCapitalsWithRecipes(request, response) {
     try {
       const capitals = await this.Capitals.findAll({ include: "recipes" });
@@ -49,7 +49,7 @@ class CapitalsController {
     }
   }
   async create(request, response) {
-    console.log("Capitals create");
+    console.log("create");
     var { description, value, date } = request.body;
     if (value === "" || value === undefined) value = "00.0";
     try {

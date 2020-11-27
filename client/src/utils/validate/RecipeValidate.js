@@ -1,29 +1,26 @@
 let error = "";
 let recipe = "";
 
-function isFieldsEmpty(recipe) {
-  if (!recipe)
+function isFieldsEmpty(payload) {
+  if (!payload)
     error = "O campo Receita deve ser preenchido.";
 }
 
-function removeExtraSpace(recipe) {
-  return recipe.replace(/\s+/g, " ");
+function removeExtraSpace(payload) {
+  return payload.replace(/\s+/g, " ");
 }
 
-
-function checkLengthName(recipe) {
-  if (recipe.length < 2)
+function checkLengthName(payload) {
+  if (payload.length < 2)
     error = "Receita deve conter no mínimo 2 caractres!";
-  if(recipe.length > 100)
+  if(payload.length > 100)
     error = "Receita deve conter no máximo 100 caractres!";
 }
 
-
 function validateFields(payload) {
-  recipe = payload;
-  isFieldsEmpty(recipe);
+  isFieldsEmpty(payload);
   if (!error.length) {
-    recipe = removeExtraSpace(recipe);
+    recipe = removeExtraSpace(payload);
     checkLengthName(recipe);
   }
   return { recipe, error };
