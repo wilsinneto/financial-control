@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import Errors from './childs/Errors.vue';
+import Errors from './childs/errors/Errors';
 import CardFormList from "./childs/CardFormList";
 import RecipesController from "../controllers/Recipes";
 import CapitalsController from "../controllers/Capitals";
@@ -99,9 +99,6 @@ export default {
 <style>
 #recipes {
   margin: 60px;
-}
-.btnAdd {
-  margin-top: 32px;
 }
 .routerLink{
   margin-right: 8px;

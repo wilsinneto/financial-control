@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <!-- <router-view></router-view> -->
-    <FilteringByPeriod></FilteringByPeriod>
+    <Spends></Spends>
   </div>
 </template>
 
@@ -9,11 +9,11 @@
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/js/bootstrap.bundle";
 import "font-awesome/css/font-awesome.min.css";
-import FilteringByPeriod from './components/FilteringByPeriod';
+import Spends from './components/Spends.vue';
 
 export default {
   name: 'App',
-  components: { FilteringByPeriod },
+  components: { Spends }
 }
 </script>
 

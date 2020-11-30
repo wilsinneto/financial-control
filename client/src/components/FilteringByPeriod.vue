@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import Error from './childs/Error.vue';
+import Error from './childs/errors/Error.vue';
 import Dates from "./childs/Dates.vue";
 import CardListPeriod from "./childs/CardSimpleList.vue";
 import { validateInputFormPeriod } from "../utils/validate/PeriodValidate";

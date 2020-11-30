@@ -75,7 +75,9 @@
             <li class="list-group-item" v-for="item in capitals" v-bind:key="item.id">
               <div class="row">
                 <div class="col-md-1">{{item.id}}</div>
-                <div class="col-md-5">{{item.recipes.description}}</div>
+                <!-- with Capitals.vue use bellow -->
+                <!-- <div class="col-md-5">{{item.recipes.description}}</div> -->
+                <div class="col-md-5">{{item.expenses.description}}</div>
                 <div class="col-md-2">{{item.value}}</div>
                 <div class="col-md-2">{{item.date ? item.date.split("T")[0] : ""}}</div>
                 <div class="col-md-2 text-right">
@@ -103,9 +105,11 @@
 </template>
 
 <script>
-import Errors from './Errors.vue';
-import { validateInputFormRecipes } from "../../utils/validate/RecipeValidate";
-import { validateInputFormCapitals } from "../../utils/validate/RecipeWithCapitals";
+import Errors from './errors/Errors';
+// with Capitals.vue use bellow
+// import { validateInputFormRecipes } from "../../utils/validate/RecipeValidate";
+import { validateInputFormExpenses } from "@/utils/validate/ExpenseValidate.js";
+import { validateInputFormSpend } from "../../utils/validate/Spends";
 
 export default {
   name: "Recipes",
@@ -128,16 +132,16 @@ export default {
     async saveItem(payload) {
       console.log("saveItem", payload);
       payload.description = this.selected;
-      const { recipe, errors } = validateInputFormCapitals(payload);
+      const { expense, errors } = validateInputFormSpend(payload);
       this.errors = errors;
       if (!errors.length) {
         if (payload.id) {
-          console.log("update");
-          this.$emit("saveItem", recipe);
+          console.log("update", expense);
+          this.$emit("saveItem", expense);
           this.clearInputs();
         } else {
-          console.log("create");
-          this.$emit("saveItem", recipe);
+          console.log("create", expense);
+          this.$emit("saveItem", expense);
           this.clearInputs();
         }
       }
@@ -149,18 +153,22 @@ export default {
     },
     updateItem(payload) {
       console.log("updateItems");
-      this.selected = payload.recipes.description;
+      // with Vapitals.vue use bellow
+      // this.selected = payload.recipes.description;
+      this.selected = payload.expenses.description;
       this.item = payload;
     },
     async addItem(payload) {
       console.log("addItem");
-      const { recipe, error } = validateInputFormRecipes(payload);
-      payload.description = recipe;
+      const { expense, error } = validateInputFormExpenses(payload);
+      // with Capitals.vue use bellow
+      // payload.description = recipe;
+      payload.description = expense;
       this.errors.push(error);
       if (!error.length) {
         this.$emit("addItem", payload);
         this.errors = [];
-        this.item.description;
+        this.item.description = "";
       }      
     },
     clearInputs() {
