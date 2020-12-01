@@ -6,7 +6,7 @@ function isFieldsEmpty(payload) {
     error = "O campo Despesa deve ser preenchido.";
 }
 
-const removeExtraSpace = (payload) => payload.replace(/\s\s+/g, ' ');
+const removeExtraSpace = (payload) => payload.replace(/\s\s+/g, " ");
 
 function checkLengthName(payload) {
   if (payload.length < 2)
@@ -27,5 +27,5 @@ function validateFields(payload) {
 exports.validateInputFormExpenses = (pyaload) => {
   error = "";
   expense = "";
-  return validateFields(pyaload.description);
+  return validateFields(pyaload);
 };

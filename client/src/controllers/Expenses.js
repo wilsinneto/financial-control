@@ -47,7 +47,7 @@ class ExpensesController {
   }
   async create(payload) {
     try {
-      const response = await execute(urlAPI, headerSave("POST", payload));
+      const response = await execute(urlAPI, headerSave("POST", { description: payload }));
       if (response.error) {
         const [matches] = captureHttpStatusCode(response.message);
         return { error: getMessage(matches) };

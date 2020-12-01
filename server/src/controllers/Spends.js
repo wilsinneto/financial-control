@@ -55,13 +55,16 @@ class SpendsController {
   }
   async create(request, response) {
     console.log("Spends create");
-    var { description, value, date } = request.body;
-    if (value === "" || value === undefined) value = "00.0";
+    // var { description, value, date } = request.body;
+    const body = request.body;
+    console.log("body", body);
+    // if (value === "" || value === undefined) value = "00.0";
+
     try {
-      const expense = await this.Expenses.findOne({ where: { description } });
-      if (!expense) return response.status(404).send({ error: "Expenses not exists."});
-      const expenseId = expense.dataValues.id;
-      await this.Spends.create({ value, date, expenseId });
+      // const expense = await this.Expenses.findOne({ where: { description } });
+      // if (!expense) return response.status(404).send({ error: "Expenses not exists."});
+      // const expenseId = expense.dataValues.id;
+      // await this.Spends.create({ value, date, expenseId });
       return response.status(201).send({});
     } catch (error) {
       return response.status(500).send({ error: error.message });

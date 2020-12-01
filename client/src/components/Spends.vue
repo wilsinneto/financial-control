@@ -1,6 +1,5 @@
 <template>
   <main id="spends">
-    <div class="container">
       <!-- <a class="routerLink"><router-link to="/">Home</router-link></a>
       <a class="routerLink"><router-link to="/capitals">Capitals</router-link></a>
       <a class="period"><router-link to="/period">Buscar por data</router-link></a>
@@ -9,22 +8,21 @@
       <div class="col">
         <errors v-bind:errors="errors"></errors>
       </div>
-      
-      <card-form-list
-      title="Despesas"
-      v-bind:recipes="expenses"
-      v-bind:capitals="spends"
-      v-on:saveItem="saveItem"
+
+      <form-modal
+      title="Receitas"
+      v-bind:items="expenses"
+      v-bind:spends="spends"
       v-on:removeItem="removeItem"
+      v-on:saveItem="saveItem"
       v-on:addItem="addItem"
-      ></card-form-list>
-    </div>
+      ></form-modal>
   </main>
 </template>
 
 <script>
 import Errors from './childs/errors/Errors.vue';
-import CardFormList from './childs/CardFormList.vue';
+import FormModal from "./childs/FormModal";
 import ExpensesController from "../controllers/Expenses";
 import SpendsController from "../controllers/Spends";
 
@@ -32,7 +30,7 @@ export default {
   name: "Expenses",
   components: {
     Errors,
-    CardFormList
+    FormModal
   },
   data() {
     return {
@@ -45,17 +43,17 @@ export default {
   },
   methods: {
     async saveItem(payload) {
-      console.log("saveItem", payload);
+      console.log("saveItem");
       this.errors = [];
       if (!this.errors.length) {
         if (payload.id) {
-          console.log("update", payload);
+          console.log("update");
           const response = await this.spendsController.update(payload);
           if (response.error) this.errors.push(response.error);
           this.errors = [];
           this.generateSpends();
         } else {
-          console.log("create", payload);
+          console.log("create");
           const response = await this.spendsController.create(payload);
           if (response.error) this.errors.push(response.error);
           this.errors = [];
