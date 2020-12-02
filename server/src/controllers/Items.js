@@ -1,20 +1,20 @@
 const { capitalizeFirstLetter } = require("../utils/CapitalizeText");
 const { optionsId, optionsDescription } = require("../utils/OptionsSequelizeNormalize");
 
-class ExpensesController {
-  constructor(Expenses) {
-    this.Expenses = Expenses;
+class ItemsController {
+  constructor(Items) {
+    this.Items = Items;
   }
   async update(request, response) {
-    const id = request.params.id;
-    const body = request.body;
-    const capitalizeDescription = capitalizeFirstLetter(body.description);
-    const payload = optionsId(id);
-    const verifyDescription = optionsDescription(capitalizeDescription);
+    // const id = request.params.id;
+    // const body = request.body;
+    // const capitalizeDescription = capitalizeFirstLetter(body.description);
+    // const payload = optionsId(id);
+    // const verifyDescription = optionsDescription(capitalizeDescription);
     try {
-      const recipeAlreadyExists = await this.Expenses.findOne(verifyDescription);
-      if (recipeAlreadyExists) return response.status(409).json({ error: "Recipe already exists."});
-      await this.Expenses.update({ description: capitalizeDescription }, payload);
+      // const recipeAlreadyExists = await this.Expenses.findOne(verifyDescription);
+      // if (recipeAlreadyExists) return response.status(409).json({ error: "Recipe already exists."});
+      // await this.Expenses.update({ description: capitalizeDescription }, payload);
       return response.status(200).send({});
     } catch (error) {
       return response.status(400).send({ error: error.message });
@@ -32,21 +32,22 @@ class ExpensesController {
   }
   async getAll(request, response) {
     try {
-      const expenses = await this.Expenses.findAll();
-      return response.status(200).send(expenses);
+      const data = await this.Items.findAll();
+      return response.status(200).send(data);
     } catch (error) {
       return response.status(500).send({error: error.message});
     }
   }
   async create(request, response) {
-    console.log("Create");
+    console.log("Items create");
     const body = request.body;
     const capitalizeDescription = capitalizeFirstLetter(body.description);
     const verifyDescription = optionsDescription(capitalizeDescription);
     try {
-      const recipeAlreadyExists = await this.Expenses.findOne(verifyDescription);
-      if (recipeAlreadyExists) return response.status(409).send({ error: "Recipe already exists."});
-      await this.Expenses.create({ description: capitalizeDescription });
+      const itemAlreadyExists = await this.Items.findOne(verifyDescription);
+      if (itemAlreadyExists) return response.status(409).send({ error: "Item already exists."});
+      body.description = capitalizeDescription;
+      await this.Items.create(body);
       return response.status(201).send({});
     } catch (error) {
       return response.status(500).send({ error: error.message });
@@ -55,4 +56,4 @@ class ExpensesController {
 
 }
 
-module.exports = ExpensesController;
+module.exports = ItemsController;

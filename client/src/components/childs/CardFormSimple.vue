@@ -12,27 +12,27 @@
           <input type="text" class="form-control" v-model="newItem" name="inputExpense" id="inputExpense">
         </div>
         <div class="col-md-1 text-left">
-          <span class="btn btn-primary" v-on:click="saveItem(newItem)"><i class="fa fa-plus"></i></span>
+          <span class="btn btn-primary" v-on:click="saveItem(type, newItem)"><i class="fa fa-plus"></i></span>
         </div>
       </div>
     </form>
     <br/>
-    <card-simple-list-2
+    <card-simple-form-list
     v-bind:items="items"
     v-on:updateItem="updateItem"
     v-on:removeItem="removeItem"
-    ></card-simple-list-2>
+    ></card-simple-form-list>
   </div>
 </template>
 
 <script>
-import { validateInputFormExpenses } from "@/utils/validate/ExpenseValidate";
-import CardSimpleList2 from './CardSimpleList2.vue';
+import { validateInputFormItems } from "@/utils/validate/ItemsValidate";
+import CardSimpleFormList from './CardSimpleFormList.vue';
 
 export default {
-  components: { CardSimpleList2 },
+  components: { CardSimpleFormList },
   name: "Expense",
-  props: ["items"],
+  props: ["type", "items"],
   data() {
     return {
       error: "",
@@ -47,19 +47,25 @@ export default {
       console.log("removeItem");
       this.$emit("removeItem", payload);
     },
-    async saveItem(payload) {
+    async saveItem(type, payload) {
       console.log("saveItem");
       this.error = "";
-      const { expense, error } = validateInputFormExpenses(payload);
+      const { item, error } = validateInputFormItems(payload);
       this.error = error;
       if (!error.length) {
         this.newItem = "";
         if (payload.id) {
           console.log("update");
-          this.$emit("updateItem", expense)
+          this.$emit("updateItem", {
+            type,
+            description: item
+          });
         } else {
           console.log("create");
-          this.$emit("saveItem", expense)
+          this.$emit("saveItem", {
+            type,
+            description: item
+          });
         }
       }
     },

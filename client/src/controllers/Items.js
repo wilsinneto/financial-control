@@ -1,13 +1,14 @@
 const { execute, headerGetOrDelete, headerSave } = require("../utils/Request");
 const { captureHttpStatusCode, getMessage } = require("../utils/ResponseMessage");
 
-let urlAPI = "http://localhost:3000/capitals";
+let urlAPI = "http://localhost:3000/items";
 
-class CapitalsController {
+class ItemsController {
   constructor() {}
   async update(payload) {
     try {
       const response = await execute(urlAPI.concat(`/${payload.id}`), headerSave("PUT", payload));
+      console.log("response.error", response.error);
       if (response.error) {
         const [matches] = captureHttpStatusCode(response.message);
         return { error: getMessage(matches) };
@@ -33,7 +34,7 @@ class CapitalsController {
   }
   async getAll() {
     try {
-      const response = await execute(urlAPI.concat("/recipes"), headerGetOrDelete("GET"));
+      const response = await execute(urlAPI, headerGetOrDelete("GET"));
       if (response.error) {
         const [matches] = captureHttpStatusCode(response.message);
         return { error: getMessage(matches) };
@@ -45,7 +46,7 @@ class CapitalsController {
     }
   }
   async create(payload) {
-    console.log("capitals create", payload);
+    console.log("Controller - Items create");
     try {
       const response = await execute(urlAPI, headerSave("POST", payload));
       if (response.error) {
@@ -60,4 +61,4 @@ class CapitalsController {
   }
 }
 
-module.exports = CapitalsController;
+module.exports = ItemsController;

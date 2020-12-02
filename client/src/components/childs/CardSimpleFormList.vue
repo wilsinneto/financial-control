@@ -5,13 +5,15 @@
         <li class="list-group-item disabled">
           <div class="row">
             <div class="col-md-1">Id</div>
-            <div class="col-md-11">Descrição</div>
+            <div class="col-md-2">Tipo</div>
+            <div class="col-md-9">Descrição</div>
           </div>
         </li>
         <li class="list-group-item" v-for="item in items" v-bind:key="item.id">
           <div class="row">
             <div class="col-md-1">{{item.id}}</div>
-            <div class="col-md-9">{{item.description}}</div>
+            <div class="col-md-2">{{item.type}}</div>
+            <div class="col-md-7">{{item.description}}</div>
             <div class="col-md-2 text-right">
               <span class="btn btn-success" v-on:click="updateItem(item)">
                 <i class="fa fa-pencil"></i>
@@ -30,7 +32,7 @@
 
 <script>
 export default {
-  name: "CardSimpleList",
+  name: "CardSimpleFormList",
   props: ["items"],
   methods: {
     updateItem(payload) {

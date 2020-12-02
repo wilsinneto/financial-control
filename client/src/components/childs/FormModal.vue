@@ -72,7 +72,7 @@
 <script>
 import Errors from "./errors/Errors";
 import CardFormList from "./CardFormList";
-import { validateInputFormExpenses } from "@/utils/validate/ExpenseValidate.js";
+import { validateInputFormItems } from "@/utils/validate/ItemsValidate.js";
 import { validateInputFormSpend } from "../../utils/validate/Spends";
 
 export default {
