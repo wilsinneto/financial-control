@@ -9,7 +9,7 @@
       </div>
 
       <card-form-simple
-      type="Despesas"
+      type="Despesa"
       v-bind:items="items"
       v-on:removeItem="removeItem"
       v-on:saveItem="saveItem"
@@ -24,8 +24,8 @@ import CardFormSimple from './childs/CardFormSimple.vue';
 import Errors from './childs/errors/Errors.vue';
 
 export default {
-  components: { CardFormSimple, Errors },
   name: "Expense",
+  components: { CardFormSimple, Errors },
   data() {
     return {
       errors: [],
@@ -34,22 +34,22 @@ export default {
     }
   },
   methods: {
-    async removeItem(payload) {
-      console.log("removeItem", payload);
-      // const response = await this.expensesController.remove(payload);
-      // if (response.error) this.errors.push(response.error);
-      // else this.generateExpenses();
+    async removeItem(item) {
+      console.log("removeItem");
+      const response = await this.itemsController.remove(item);
+      if (response.error) this.errors.push(response.error);
+      else this.generateItems();
     },
-    async saveItem(payload) {
-      console.log("Items - save");
-      if (payload.id) {
+    async saveItem(item) {
+      console.log("Item - save");
+      if (item.id) {
         console.log("update");
-        // const response = await this.expensesController.update(payload);
-        // if (response.error) this.errors.push(response.error);
-        // else this.generateExpenses();
+        const response = await this.itemsController.update(item);
+        if (response.error) this.errors.push(response.error);
+        else this.generateItems();
       } else {
         console.log("create");
-        const response = await this.itemsController.create(payload);
+        const response = await this.itemsController.create(item);
         if (response.error) this.errors.push(response.error);
         else this.generateItems();
       }

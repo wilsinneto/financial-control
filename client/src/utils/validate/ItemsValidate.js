@@ -1,31 +1,31 @@
 let error = "";
-let item = "";
+let newItem = "";
 
-function isFieldsEmpty(payload) {
-  if (!payload)
+function isFieldsEmpty(item) {
+  if (!item)
     error = "O campo a baixo deve ser preenchido.";
 }
 
-const removeExtraSpace = (payload) => payload.replace(/\s\s+/g, " ");
+const removeExtraSpace = (item) => item.replace(/\s\s+/g, " ");
 
-function checkLengthName(payload) {
-  if (payload.length < 2)
+function checkLengthName(item) {
+  if (item.length < 2)
     error = "O campo a baixo deve conter no mínimo 2 caractres!";
-  if(payload.length > 100)
+  if(item.length > 100)
     error = "O campo a baixo deve conter no máximo 100 caractres!";
 }
 
-function validateFields(payload) {
-  isFieldsEmpty(payload);
+function validateFields(item) {
+  isFieldsEmpty(item);
   if (!error.length) {
-    item = removeExtraSpace(payload);
-    checkLengthName(payload);
+    newItem = removeExtraSpace(item);
+    checkLengthName(item);
   }
-  return { item, error };
+  return { newItem, error };
 }
 
-exports.validateInputFormItems = (pyaload) => {
+exports.validateInputFormItems = (item) => {
   error = "";
-  item = "";
-  return validateFields(pyaload);
+  newItem = "";
+  return validateFields(item);
 };

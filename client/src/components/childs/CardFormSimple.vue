@@ -9,10 +9,10 @@
       <label for="inputExpense">Despesas</label>
       <div class="form-row text-center">
         <div class="col-md-5 text-left">
-          <input type="text" class="form-control" v-model="newItem" name="inputExpense" id="inputExpense">
+          <input type="text" class="form-control" v-model="item.description" name="inputExpense" id="inputExpense">
         </div>
         <div class="col-md-1 text-left">
-          <span class="btn btn-primary" v-on:click="saveItem(type, newItem)"><i class="fa fa-plus"></i></span>
+          <span class="btn btn-primary" v-on:click="saveItem(type, item)"><i class="fa fa-plus"></i></span>
         </div>
       </div>
     </form>
@@ -36,37 +36,30 @@ export default {
   data() {
     return {
       error: "",
-      newItem: ""
+      item: {
+        type: "",
+        description: ""
+      }
     }
   },
   methods: {
-    updateItem(payload) {
-      this.newItem = payload.description;
+    updateItem(item) {
+      this.item = item;
     },
-    async removeItem(payload) {
-      console.log("removeItem");
-      this.$emit("removeItem", payload);
+    removeItem(item) {
+      console.log("CardFormSimple - removeItem");
+      this.$emit("removeItem", item);
     },
-    async saveItem(type, payload) {
-      console.log("saveItem");
+    saveItem(type, item) {
+      console.log("CardFormSimple - saveItem");
       this.error = "";
-      const { item, error } = validateInputFormItems(payload);
+      const { newItem, error } = validateInputFormItems(item.description);
       this.error = error;
       if (!error.length) {
-        this.newItem = "";
-        if (payload.id) {
-          console.log("update");
-          this.$emit("updateItem", {
-            type,
-            description: item
-          });
-        } else {
-          console.log("create");
-          this.$emit("saveItem", {
-            type,
-            description: item
-          });
-        }
+        this.item.description = "";
+        item.type = type;
+        item.description = newItem;
+        this.$emit("saveItem", item);
       }
     },
   },

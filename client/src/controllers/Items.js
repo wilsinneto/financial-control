@@ -5,9 +5,9 @@ let urlAPI = "http://localhost:3000/items";
 
 class ItemsController {
   constructor() {}
-  async update(payload) {
+  async update(item) {
     try {
-      const response = await execute(urlAPI.concat(`/${payload.id}`), headerSave("PUT", payload));
+      const response = await execute(urlAPI.concat(`/${item.id}`), headerSave("PUT", item));
       console.log("response.error", response.error);
       if (response.error) {
         const [matches] = captureHttpStatusCode(response.message);
@@ -19,9 +19,9 @@ class ItemsController {
       return { error: getMessage(matches) };
     }
   }
-  async remove(payload) {
+  async remove(item) {
     try {
-      const response = await execute(urlAPI.concat(`/${payload.id}`), headerGetOrDelete("DELETE"));
+      const response = await execute(urlAPI.concat(`/${item.id}`), headerGetOrDelete("DELETE"));
       if (response.error) {
         const [matches] = captureHttpStatusCode(response.message);
         return { error: getMessage(matches) };
@@ -45,10 +45,10 @@ class ItemsController {
       return { error: getMessage(matches) };
     }
   }
-  async create(payload) {
+  async create(item) {
     console.log("Controller - Items create");
     try {
-      const response = await execute(urlAPI, headerSave("POST", payload));
+      const response = await execute(urlAPI, headerSave("POST", item));
       if (response.error) {
         const [matches] = captureHttpStatusCode(response.message);
         return { error: getMessage(matches) };

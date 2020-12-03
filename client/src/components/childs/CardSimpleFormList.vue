@@ -35,13 +35,13 @@ export default {
   name: "CardSimpleFormList",
   props: ["items"],
   methods: {
-    updateItem(payload) {
-      console.log("updateItem");
-      this.$emit("updateItem", payload);
+    updateItem(item) {
+      console.log("CardSimpleFormList - updateItem");
+      this.$emit("updateItem", item);
     },
-    removeItem(payload) {
-      console.log("removeItem");
-      this.$emit("removeItem", payload);
+    removeItem(item) {
+      console.log("CardSimpleFormList - removeItem");
+      this.$emit("removeItem", item);
     }
   }
 }
