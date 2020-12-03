@@ -8,7 +8,6 @@ class ItemsController {
   async update(item) {
     try {
       const response = await execute(urlAPI.concat(`/${item.id}`), headerSave("PUT", item));
-      console.log("response.error", response.error);
       if (response.error) {
         const [matches] = captureHttpStatusCode(response.message);
         return { error: getMessage(matches) };

@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <!-- <router-view></router-view> -->
-    <expense></expense>
+    <recipes></recipes>
   </div>
 </template>
 
@@ -10,11 +10,11 @@ import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/js/bootstrap.bundle";
 import "font-awesome/css/font-awesome.min.css";
 
-import Expense from './components/Expense.vue';
+import Recipes from './components/Recipes.vue';
 
 export default {
   name: 'App',
-  components: { Expense }
+  components: { Recipes }
 }
 </script>
 
