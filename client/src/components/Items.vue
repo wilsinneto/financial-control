@@ -38,32 +38,36 @@ export default {
     async removeItem(item) {
       console.log("removeItem");
       const response = await this.itemsController.remove(item);
-      this.getResponseAndRunningOperation(response);
+      this.responseIsError(response);
+      this.runningOperation();
     },
     async saveItem(item) {
       console.log("Item - save");
       if (item.id) {
         console.log("update");
         const response = await this.itemsController.update(item);
-        this.getResponseAndRunningOperation(response);
+        this.responseIsError(response);
+        this.runningOperation();
       } else {
         console.log("create");
         const response = await this.itemsController.create(item);
-        this.getResponseAndRunningOperation(response);
+        this.responseIsError(response);
+        this.runningOperation();
       }
     },
     async generateItems() {
       console.log("generatItems");
       this.itemsController = new ItemsController();
       const response = await this.itemsController.getAll();
-      this.getResponseAndRunningOperation(response, this.type);
+      this.responseIsError(response);
+      this.runningOperation(response, this.type);
     },
-    getResponseAndRunningOperation(response, type) {
-      if (response.error) this.errors.push(response.error);
-      else {
-        if (type) this.items = response.filter(item => item.type === this.type);
-        else this.generateItems();
-      }
+    runningOperation(response, type) {
+      if (!response) this.generateItems();
+      else this.items = response.filter(item => item.type === type);
+    },
+    responseIsError(response) {
+      if (response.error) this.errors.push(response.error)
     }
   },
   created() {
