@@ -5,8 +5,14 @@ const Op = Sequelize.Op;
 exports.optionsId = (id) => ({ where: { id }});
 
 exports.optionsDescription = (string) => (
-  { where: { description: string }}
+  { where: { description: string } }
 );
+
+exports.optionsForUpdateElement = (body) => {
+  const { value, date, description } = body;
+  const element = { value, date, description };
+  return element;
+}
 
 exports.optionsBetweenDate = (startDate, endDate) => ({
   where: {
@@ -14,5 +20,5 @@ exports.optionsBetweenDate = (startDate, endDate) => ({
       [Op.between]: [startDate, endDate]
     }
   },
-  include: "expenses"
+  include: "items"
 });

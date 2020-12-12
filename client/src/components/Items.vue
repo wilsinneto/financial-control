@@ -24,7 +24,7 @@ import CardFormSimple from './childs/CardFormSimple.vue';
 import Errors from './childs/errors/Errors.vue';
 
 export default {
-  name: "Expenses",
+  name: "Items",
   props: ["type"],
   components: { CardFormSimple, Errors },
   data() {

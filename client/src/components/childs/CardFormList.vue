@@ -17,8 +17,8 @@
               <div class="col-md-1">{{item.id}}</div>
               <!-- with Capitals.vue use bellow -->
               <!-- <div class="col-md-5">{{item.recipes.description}}</div> -->
-              <div class="col-md-5">{{item.expenses.description}}</div>
-              <div class="col-md-2">{{item.value}}</div>
+              <div class="col-md-5">{{item.items.description}}</div>
+              <div class="col-md-2">{{formatMoney(item.value)}}</div>
               <div class="col-md-2">{{item.date ? item.date.split("T")[0] : ""}}</div>
               <div class="col-md-2 text-right">
                 <span
@@ -58,8 +58,15 @@ export default {
     }
   },
   methods: {
+    formatMoney(value) {
+			const formatter = new Intl.NumberFormat("pt-BR", {
+				style: "currency",
+				currency: "BRL"
+			});
+			return formatter.format(value);
+		},
     removeItem(payload) {
-      console.log("remove", payload);
+      console.log("remove");
       this.$emit("removeItem", payload);
     },
     updateItem(payload) {

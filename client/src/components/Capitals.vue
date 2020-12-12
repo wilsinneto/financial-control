@@ -1,12 +1,12 @@
 <template>
-  <main id="spends">
+  <main id="capitals">
     <div class="container">
       <!-- <a href=""><router-link to="/spends">Voltar</router-link></a>
       <br/>
       <br/> -->
 
       <elements
-      type="Despesa"
+      type="Receita"
       ></elements>
     </div>
   </main>
@@ -15,7 +15,7 @@
 <script>
 import Elements from "./Elements";
 export default {
-  name: "Spends",
+  name: "Capitals",
   components: { Elements }
 }
 </script>

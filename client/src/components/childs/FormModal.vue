@@ -62,7 +62,7 @@
       </div>
     </form>
     <card-form-list
-    v-bind:items="spends"
+    v-bind:items="elements"
     v-on:removeItem="removeItem"
     v-on:updateItem="updateItem"
     ></card-form-list>
@@ -73,12 +73,12 @@
 import Errors from "./errors/Errors";
 import CardFormList from "./CardFormList";
 import { validateInputFormItems } from "@/utils/validate/ItemsValidate.js";
-import { validateInputFormSpend } from "../../utils/validate/Spends";
+import { validateInputFormElement } from "@/utils/validate/ElementsValidate";
 
 export default {
   name: "FormModal",
   components: { Errors, CardFormList },
-  props: ["title", "items", "spends"],
+  props: ["title", "items", "elements"],
   data() {
     return {
       errors: [],
@@ -92,38 +92,39 @@ export default {
     }
   },
   methods: {
-    removeItem(payload) {
+    removeItem(item) {
       console.log("remove");
-      this.$emit("removeItem", payload);
+      this.$emit("removeItem", item);
     },
-    updateItem(payload) {
+    updateItem(item) {
       console.log("updateItem");
-      this.selected = payload.expenses.description;
-      this.item = payload;
+      this.selected = item.items.description;
+      this.item.description = this.selected;
+      this.item = item;
     },
-    addItem(payload) {
+    addItem(item) {
       console.log("addItem");
       this.errors = [];
-      const { expense, error } = validateInputFormExpenses(payload);
+      const { newItem, error } = validateInputFormItems(item);
       this.errors.push(error);
       if (!error.length) {
         this.errors = [];
         this.newItem = "";
-        this.$emit("addItem", expense);
+        this.$emit("addItem", newItem);
       }
     },
-    saveItem(payload) {
+    saveItem(item) {
       console.log("saveItem");
-      payload.description = this.selected;
-      const { expense, errors } = validateInputFormSpend(payload);
+      item.description = this.selected;
+      const { newElement, errors } = validateInputFormElement(item);
       this.errors = errors;
       if (!errors.length) {
-        if (payload.id) {
+        if (item.id) {
           console.log("update");
-          this.$emit("saveItem", expense);
+          this.$emit("saveItem", newElement);
         } else {
           console.log("create");
-          this.$emit("saveItem", expense);
+          this.$emit("saveItem", newElement);
         }
         this.clearInputs();
       }

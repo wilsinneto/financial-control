@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <!-- <router-view></router-view> -->
-    <recipes></recipes>
+    <filtering-by-period></filtering-by-period>
   </div>
 </template>
 
@@ -10,17 +10,18 @@ import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/js/bootstrap.bundle";
 import "font-awesome/css/font-awesome.min.css";
 
-import Recipes from './components/Recipes.vue';
+import FilteringByPeriod from './components/FilteringByPeriod.vue';
 
 export default {
-  name: 'App',
-  components: { Recipes }
+  name: "App",
+  components: { FilteringByPeriod }
 }
 </script>
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  
+    FilteringByPeriodfont-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
