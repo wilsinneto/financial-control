@@ -7,8 +7,7 @@
       <div class="container">
         <div class="form-row">
           <div class="form-group col-md-5">
-            <label>{{ title }}</label>
-            <!-- <label><router-link to="title">{{ title }}</router-link></label> -->
+            <label><router-link v-bind:to="link">{{ title }}</router-link></label>
             <select id="inputState" class="form-control" v-model="selected">
               <option disabled value="">Por favor, selecione um</option>
               <option v-for="item in items" :key="item.id">
@@ -78,7 +77,7 @@ import { validateInputFormElement } from "@/utils/validate/ElementsValidate";
 export default {
   name: "FormModal",
   components: { Errors, CardFormList },
-  props: ["title", "items", "elements"],
+  props: ["title", "link", "items", "elements"],
   data() {
     return {
       errors: [],

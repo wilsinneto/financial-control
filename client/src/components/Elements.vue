@@ -1,16 +1,12 @@
 <template>
   <main id="elements">
-      <!-- <a class="routerLink"><router-link to="/">Home</router-link></a>
-      <a class="routerLink"><router-link to="/capitals">Capitals</router-link></a>
-      <a class="period"><router-link to="/period">Buscar por data</router-link></a>
-      <br/>
-      <br/> -->
       <div class="col">
         <errors v-bind:errors="errors"></errors>
       </div>
 
       <form-modal
       v-bind:title="type"
+      v-bind:link="link"
       v-bind:items="items"
       v-bind:elements="elements"
       v-on:removeItem="removeItem"
@@ -28,7 +24,7 @@ import ElementsController from "@/controllers/Elements";
 
 export default {
   name: "Elements",
-  props: ["type"],
+  props: ["type", "link"],
   components: {
     Errors,
     FormModal

@@ -1,15 +1,13 @@
 <template>
   <main id="items">
     <div class="container">
-      <!-- <a href=""><router-link to="/spends">Voltar</router-link></a>
-      <br/>
-      <br/> -->
       <div class="col">
         <errors v-bind:errors="errors"></errors>
       </div>
 
       <card-form-simple
       v-bind:type="type"
+      v-bind:link="link"
       v-bind:items="items"
       v-on:removeItem="removeItem"
       v-on:saveItem="saveItem"
@@ -25,7 +23,7 @@ import Errors from './childs/errors/Errors.vue';
 
 export default {
   name: "Items",
-  props: ["type"],
+  props: ["type", "link"],
   components: { CardFormSimple, Errors },
   data() {
     return {

@@ -15,8 +15,6 @@
           <li class="list-group-item" v-for="item in items" v-bind:key="item.id">
             <div class="row">
               <div class="col-md-1">{{item.id}}</div>
-              <!-- with Capitals.vue use bellow -->
-              <!-- <div class="col-md-5">{{item.recipes.description}}</div> -->
               <div class="col-md-5">{{item.items.description}}</div>
               <div class="col-md-2">{{formatMoney(item.value)}}</div>
               <div class="col-md-2">{{item.date ? item.date.split("T")[0] : ""}}</div>

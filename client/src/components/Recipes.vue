@@ -1,9 +1,9 @@
 <template>
   <main id="items">
     <div class="container">
-      <!-- <a href=""><router-link to="/spends">Voltar</router-link></a>
-      <br/>
-      <br/> -->
+      <section id="link">
+        <a class="routerLink"><router-link to="/capitals">Voltar</router-link></a>
+      </section>
 
       <items
       type="Receita"
@@ -21,4 +21,7 @@ export default {
 </script>
 
 <style>
+#link {
+  margin-left: 75px;
+}
 </style>

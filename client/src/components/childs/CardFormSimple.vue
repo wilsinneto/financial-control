@@ -6,10 +6,10 @@
       </div>
     </div>
     <form>
-      <label for="inputExpense">{{ type }}</label>
+      <label>{{ type }}</label>
       <div class="form-row text-center">
         <div class="col-md-5 text-left">
-          <input type="text" class="form-control" v-model="item.description" name="inputExpense" id="inputExpense">
+          <input type="text" class="form-control" v-model="item.description" name="inputItem" id="inputItem">
         </div>
         <div class="col-md-1 text-left">
           <span class="btn btn-primary" v-on:click="saveItem(item)"><i class="fa fa-plus"></i></span>
@@ -32,7 +32,7 @@ import CardSimpleFormList from './CardSimpleFormList.vue';
 export default {
   components: { CardSimpleFormList },
   name: "Expense",
-  props: ["type", "items"],
+  props: ["type", "link", "items"],
   data() {
     return {
       error: "",

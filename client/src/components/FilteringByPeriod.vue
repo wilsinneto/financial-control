@@ -1,27 +1,31 @@
 <template>
   <main id="period">
     <div class="container">
-      <!-- <a href=""><router-link to="/spends">Voltar</router-link></a>
-      <br/>
-      <br/> -->
+      <section id="link">
+        <a class="routerLink"><router-link to="/spends">Voltar</router-link></a>
+      </section>
       <div class="col">
         <error v-bind:error="error"></error>
       </div>
-      <form>
-        <dates v-on:filter="filter"></dates>
-      </form>
-      <br/>
-      <card-simple-list v-bind:items="elements"></card-simple-list>
+      <div id="content">
+        <form class="form-group">
+          <dates v-on:filter="filter"></dates>
+        </form>
+        
+        <card-simple-list
+        v-bind:items="elements">
+        </card-simple-list>
+      </div>
     </div>
   </main>
 </template>
 
 <script>
-import Error from './childs/errors/Error.vue';
+import Error from "./childs/errors/Error.vue";
 import Dates from "./childs/Dates.vue";
 import CardSimpleList from "./childs/CardSimpleList.vue";
-import { validateInputFormPeriod } from "../utils/validate/PeriodValidate";
-import ElementsController from "../controllers/Elements";
+import { validateInputFormPeriod } from "@/utils/validate/PeriodValidate";
+import ElementsController from "@/controllers/Elements";
 
 export default {
   name: "Period",
@@ -55,9 +59,12 @@ export default {
 
 <style>
 #period {
-  margin: 60px;
+  margin-top: 60px;
 }
-.btnAdd {
-  margin-top: 32px;
+#link {
+  margin-left: 75px;
+}
+#content {
+  margin: 60px;
 }
 </style>

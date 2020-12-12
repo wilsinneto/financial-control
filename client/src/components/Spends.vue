@@ -1,12 +1,15 @@
 <template>
   <main id="spends">
     <div class="container">
-      <!-- <a href=""><router-link to="/spends">Voltar</router-link></a>
-      <br/>
-      <br/> -->
+      <section id="link">
+        <a class="routerLink"><router-link to="/">Home</router-link></a>
+        <a class="routerLink"><router-link to="/capitals">Capitals</router-link></a>
+        <a class="period"><router-link to="/period">Buscar por data</router-link></a>
+      </section>
 
       <elements
       type="Despesa"
+      link="expenses"
       ></elements>
     </div>
   </main>
@@ -21,4 +24,13 @@ export default {
 </script>
 
 <style>
+#spends {
+  margin: 60px;
+}
+#link {
+  margin-left: 75px;
+}
+.routerLink{
+  margin-right: 8px;
+}
 </style>
