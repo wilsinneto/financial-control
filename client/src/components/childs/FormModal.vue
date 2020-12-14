@@ -7,7 +7,12 @@
       <div class="container">
         <div class="form-row">
           <div class="form-group col-md-5">
-            <label><router-link v-bind:to="link">{{ title }}</router-link></label>
+            <label>
+              <router-link v-bind:to="link">
+                {{ title }}
+                <span class="badge badge-info">{{ items.length }}</span>
+              </router-link>
+            </label>
             <select id="inputState" class="form-control" v-model="selected">
               <option disabled value="">Por favor, selecione um</option>
               <option v-for="item in items" :key="item.id">

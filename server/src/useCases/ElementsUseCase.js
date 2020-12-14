@@ -25,8 +25,8 @@ class ElementsUseCase {
     await this.Elements.update({ value, date, itemId }, id);
   }
 
-  async getAll() {
-    const elements = await this.Elements.findAll({ include: "items" });
+  async getAll(sortByElements) {
+    const elements = await this.Elements.findAll(sortByElements);
     if (!elements) return { error: true };
     return elements;
   }

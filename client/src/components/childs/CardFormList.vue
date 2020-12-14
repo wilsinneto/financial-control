@@ -1,6 +1,19 @@
 <template>
   <div class="container">
     <br/>
+    <div class="form-row">
+      <div class="col-md-5">
+        <input
+        type="text"
+        name="filter"
+        class="form-control"
+        v-model="filter"
+        placeholder="O que você está procurando?"
+        >
+      </div>
+    </div>
+    <br/>
+    Itens <span class="badge badge-info">{{ filteredItems.length }}</span>
     <div class="card">
       <div class="card-body">
         <ul class="list-group">
@@ -12,7 +25,7 @@
               <div class="col-md-2">Data</div>
             </div>
           </li>
-          <li class="list-group-item" v-for="item in items" v-bind:key="item.id">
+          <li class="list-group-item" v-for="item in filteredItems" v-bind:key="item.id">
             <div class="row">
               <div class="col-md-1">{{item.id}}</div>
               <div class="col-md-5">{{item.items.description}}</div>
@@ -48,11 +61,24 @@ export default {
   props: ["items"],
   data() {
     return {
+      filter: "",
       item: {
         description: "",
         value: "",
         date: Date
       },
+    }
+  },
+  computed: {
+    filteredItems() {
+      if(!this.filter) return this.items;
+      return this.items.filter(
+        element => element
+        .items.description.toLowerCase()
+        .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+        .includes(this.filter.toLowerCase()
+        .normalize("NFD").replace(/[\u0300-\u036f]/g, ""))
+      );
     }
   },
   methods: {

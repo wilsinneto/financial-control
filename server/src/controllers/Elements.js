@@ -1,5 +1,10 @@
 const { oneLessDate } = require("../utils/DateNormalize");
-const { optionsId, optionsBetweenDate, optionsForUpdateElement, optionsDescription } = require("../utils/OptionsSequelizeNormalize");
+const {
+  optionsId,
+  optionsBetweenDate,
+  optionsForUpdateElement,
+  optionsDescription,
+  sortByElements } = require("../utils/OptionsSequelizeNormalize");
 
 class ElementsController {
   constructor(ElementsUseCases) {
@@ -47,8 +52,9 @@ class ElementsController {
   }
   async getAll(request, response) {
     console.log("Elements get All");
+    const sort = sortByElements();
     try {
-      const elements = await this.ElementsUseCases.getAll();
+      const elements = await this.ElementsUseCases.getAll(sort);
       if (elements.error) return response.status(400).send({ error: "Error when filtering elements."});
       return response.status(200).send(elements);
     } catch (error) {

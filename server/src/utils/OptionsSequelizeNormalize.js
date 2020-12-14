@@ -20,5 +20,11 @@ exports.optionsBetweenDate = (startDate, endDate) => ({
       [Op.between]: [startDate, endDate]
     }
   },
-  include: "items"
+  include: "items",
+  order : ["date"]
+});
+
+exports.sortByElements = () => ({
+  include: "items",
+  order : ["date"]
 });
