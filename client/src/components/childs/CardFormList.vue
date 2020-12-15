@@ -17,12 +17,12 @@
     <div class="card">
       <div class="card-body">
         <ul class="list-group">
-          <li class="list-group-item disabled">
+          <li class="list-group-item">
             <div class="row">
               <div class="col-md-1">Id</div>
-              <div class="col-md-5">Descrição</div>
-              <div class="col-md-2">Valor</div>
-              <div class="col-md-2">Data</div>
+                <div class="col-md-5">Descrição</div>
+                <div class="col-md-2">Valor</div>
+                <div class="col-md-2">Data</div>
             </div>
           </li>
           <li class="list-group-item" v-for="item in filteredItems" v-bind:key="item.id">
@@ -61,6 +61,8 @@ export default {
   props: ["items"],
   data() {
     return {
+      currentSort:'date',
+      currentSortDir:'ASC',
       filter: "",
       item: {
         description: "",
@@ -100,6 +102,3 @@ export default {
   }
 }
 </script>
-
-<style>
-</style>
