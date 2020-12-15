@@ -19,11 +19,23 @@
         <ul class="list-group">
           <li class="list-group-item">
             <div class="row">
-              <div class="col-md-1">Id</div>
-                <div class="col-md-5">Descrição</div>
-                <div class="col-md-2">Valor</div>
-                <div class="col-md-2">Data</div>
-            </div>
+                <div class="col-md-1 header-item"
+                v-on:click="sort('id')">
+                <b>Id</b>
+                </div>
+                <div class="col-md-5 header-item"
+                v-on:click="sort('items.description')">
+                <b>Descrição</b>
+                </div>
+                <div class="col-md-2 header-item"
+                v-on:click="sort('value')">
+                <b>Valor</b>
+                </div>
+                <div class="col-md-2 header-item"
+                v-on:click="sort('date')">
+                <b>Data</b>
+                </div>
+              </div>
           </li>
           <li class="list-group-item" v-for="item in filteredItems" v-bind:key="item.id">
             <div class="row">
@@ -57,12 +69,12 @@
 <script>
 
 export default {
-  name: "Recipes",
+  name: "CardFormList",
   props: ["items"],
   data() {
     return {
-      currentSort:'date',
-      currentSortDir:'ASC',
+      currentSort: "date",
+      currentSortDir: "ASC",
       filter: "",
       item: {
         description: "",
@@ -73,17 +85,34 @@ export default {
   },
   computed: {
     filteredItems() {
-      if(!this.filter) return this.items;
-      return this.items.filter(
-        element => element
-        .items.description.toLowerCase()
-        .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-        .includes(this.filter.toLowerCase()
-        .normalize("NFD").replace(/[\u0300-\u036f]/g, ""))
-      );
+      if(!this.filter) return this.sortedItems();
+      return this.items.filter(element => this.normalizeItems(element));
     }
   },
   methods: {
+    normalizeItems(element) {
+      const elementNormalize = element
+        .items.description.toLowerCase()
+        .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+        .includes(this.filter.toLowerCase()
+        .normalize("NFD").replace(/[\u0300-\u036f]/g, ""));
+      return elementNormalize;
+    },
+    compareString(a, b) {
+      let modifier = 1;
+      if(this.currentSortDir === "DESC") modifier = -1;
+      if(a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
+      if(a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
+      return 0;
+    },
+    sortedItems() {
+      return this.items.slice(0).sort(this.compareString);
+    },
+    sort(tab) {
+      if(tab === this.currentSort)
+        this.currentSortDir = this.currentSortDir === "ASC" ? "DESC" : "ASC";
+      this.currentSort = tab;
+    },
     formatMoney(value) {
 			const formatter = new Intl.NumberFormat("pt-BR", {
 				style: "currency",

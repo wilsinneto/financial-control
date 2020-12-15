@@ -31,7 +31,7 @@ import CardSimpleFormList from './CardSimpleFormList.vue';
 
 export default {
   components: { CardSimpleFormList },
-  name: "Expense",
+  name: "CardFormSimple",
   props: ["type", "link", "items"],
   data() {
     return {

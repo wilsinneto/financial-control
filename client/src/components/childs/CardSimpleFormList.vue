@@ -48,8 +48,8 @@ export default {
   props: ["items"],
   data() {
     return {
-      currentSort:'id',
-      currentSortDir:'ASC'
+      currentSort: "id",
+      currentSortDir: "ASC"
     }
   },
   computed: {
@@ -60,7 +60,7 @@ export default {
   methods: {
     compareString(a, b) {
       let modifier = 1;
-      if(this.currentSortDir === 'DESC') modifier = -1;
+      if(this.currentSortDir === "DESC") modifier = -1;
       if(a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
       if(a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
       return 0;
