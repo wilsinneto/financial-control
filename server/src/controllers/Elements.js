@@ -55,7 +55,8 @@ class ElementsController {
     const sort = sortByElements();
     try {
       const elements = await this.ElementsUseCases.getAll(sort);
-      if (elements.error) return response.status(400).send({ error: "Error when filtering elements."});
+      if (elements.error)
+        return response.status(400).send({ error: "Error when filtering elements."});
       return response.status(200).send(elements);
     } catch (error) {
       return response.status(500).send({error: error.message});

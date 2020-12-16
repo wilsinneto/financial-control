@@ -5,19 +5,19 @@
         <li class="list-group-item">
           <div class="row">
             <div
-            class="col-md-1"
+            class="col-md-1 header-item"
             v-on:click="sort('id')">
-            <b class="header-item">Id</b>
+            <b>Id</b>
             </div>
             <div
-            class="col-md-2"
+            class="col-md-2 header-item"
             v-on:click="sort('type')">
-            <b class="header-item">Tipo</b>
+            <b>Tipo</b>
             </div>
             <div
-            class="col-md-9"
+            class="col-md-9 header-item"
             v-on:click="sort('description')">
-            <b class="header-item">Descrição</b>
+            <b>Descrição</b>
             </div>
           </div>
         </li>
@@ -49,12 +49,15 @@ export default {
   data() {
     return {
       currentSort: "id",
-      currentSortDir: "ASC"
+      currentSortDir: "DESC"
     }
   },
   computed: {
     sortedItems() {
-      return this.items.slice(0).sort(this.compareString);
+      const elements = this.items
+        .slice(0)
+        .sort((a, b) => this.compareString(a, b));
+      return elements;
     }
   },
   methods: {

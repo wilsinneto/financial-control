@@ -26,5 +26,5 @@ exports.optionsBetweenDate = (startDate, endDate) => ({
 
 exports.sortByElements = () => ({
   include: "items",
-  order : ["date"]
+  order : [["date", "DESC"]]
 });

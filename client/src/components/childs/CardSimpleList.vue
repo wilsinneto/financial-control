@@ -1,6 +1,9 @@
 <template>
   <main id="list">
     <div class="container">
+      <label>
+      Itens <span class="badge badge-info">{{ sortedItems.length }}</span>
+    </label>
       <div class="card">
         <div class="card-body">
           <ul class="list-group">
@@ -28,7 +31,7 @@
               <div class="row">
                 <div class="col-md-1">{{item.id}}</div>
                 <div class="col-md-5">{{item.items.description}}</div>
-                <div class="col-md-2">{{item.value}}</div>
+                <div class="col-md-2">{{formatMoney(item.value)}}</div>
                 <div class="col-md-2">{{item.date ? item.date.split("T")[0] : ""}}</div>
               </div>
             </li>
@@ -46,15 +49,25 @@ export default {
   data() {
     return {
       currentSort: "date",
-      currentSortDir: "ASC"
+      currentSortDir: "DESC"
     }
   },
   computed: {
     sortedItems() {
-      return this.items.slice(0).sort(this.compareString);
+      const elements = this.items
+        .slice(0)
+        .sort((a, b) => this.compareString(a, b));
+      return elements;
     }
   },
   methods: {
+    formatMoney(value) {
+			const formatter = new Intl.NumberFormat("pt-BR", {
+				style: "currency",
+				currency: "BRL"
+			});
+			return formatter.format(value);
+		},
     compareString(a, b) {
       let modifier = 1;
       if(this.currentSortDir === "DESC") modifier = -1;

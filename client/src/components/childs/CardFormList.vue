@@ -13,7 +13,9 @@
       </div>
     </div>
     <br/>
-    Itens <span class="badge badge-info">{{ filteredItems.length }}</span>
+    <label>
+      Itens <span class="badge badge-info">{{ filteredItems.length }}</span>
+    </label>
     <div class="card">
       <div class="card-body">
         <ul class="list-group">
@@ -74,7 +76,7 @@ export default {
   data() {
     return {
       currentSort: "date",
-      currentSortDir: "ASC",
+      currentSortDir: "DESC",
       filter: "",
       item: {
         description: "",
@@ -85,13 +87,18 @@ export default {
   },
   computed: {
     filteredItems() {
-      if(!this.filter) return this.sortedItems();
-      return this.items.filter(element => this.normalizeItems(element));
+      const elements = this.items
+        .slice(0)
+        .sort((a, b) => this.compareString(a, b))
+        .filter(element => this.normalizeItems(element)
+      );
+      return elements;
     }
   },
   methods: {
     normalizeItems(element) {
-      const elementNormalize = element
+      let elementNormalize = "";
+        elementNormalize = element
         .items.description.toLowerCase()
         .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
         .includes(this.filter.toLowerCase()
@@ -104,9 +111,6 @@ export default {
       if(a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
       if(a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
       return 0;
-    },
-    sortedItems() {
-      return this.items.slice(0).sort(this.compareString);
     },
     sort(tab) {
       if(tab === this.currentSort)
