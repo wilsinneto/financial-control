@@ -2,8 +2,8 @@
   <main id="list">
     <div class="container">
       <label>
-      Itens <span class="badge badge-info">{{ sortedItems.length }}</span>
-    </label>
+        Itens <span class="badge badge-info">{{ sortedItems.length }}</span>
+      </label>
       <div class="card">
         <div class="card-body">
           <ul class="list-group">

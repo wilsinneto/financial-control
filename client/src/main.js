@@ -1,30 +1,60 @@
 import Vue from "vue";
 import App from "./App.vue";
-import VueRouter from "vue-router";
+import Vuex from "vuex";
+import router from "./routes"
 
-import Home from "./components/Home.vue";
-import Recipes from "./components/Recipes.vue";
-import Capitals from "./components/Capitals.vue";
-import Expenses from "./components/Expenses.vue";
-import Spends from "./components/Spends.vue";
-import FilteringByPeriod from "./components/FilteringByPeriod.vue";
+import ItemsController from "@/controllers/Items";
 
-Vue.use(VueRouter);
+Vue.use(Vuex);
 
-const routes = [
-  { path: '/', component: Home },
-  { path: '/recipes', component: Recipes },
-  { path: '/capitals', component: Capitals },
-  { path: '/expenses', component: Expenses },
-  { path: '/spends', component: Spends },
-  { path: "/period", component: FilteringByPeriod }
-]
+const store = new Vuex.Store({
+  state: {
+    errors: [],
+    items: [],
+    itemsController: {},
+  },
+  actions: {
+    async removeItem(context, payload) {
+      console.log("removeItem");
+      const { item, type } = payload;
+      const response = await context.state.itemsController.remove(item);
+      context.dispatch("responseIsError", response);
+      context.dispatch("generateItems", type);
+    },
+    async saveItem(context, payload) {
+      console.log("Item - save");
+      const { item, type } = payload;
+      if (item.id) {
+        console.log("update");
+        const response = await context.state.itemsController.update(item);
+        context.dispatch("responseIsError", response);
+        context.dispatch("generateItems", type);
+      } else {
+        console.log("create");
+        const response = await context.state.itemsController.create(item);
+        context.dispatch("responseIsError", response);
+        context.dispatch("generateItems", type);
+      }
+    },
+    async generateItems(context, payload) {
+      console.log("generatItems");
+      const type = payload;
+      context.state.itemsController = new ItemsController();
+      const response = await context.state.itemsController.getAll();
+      context.dispatch("responseIsError", response);
+      context.state.items = response.filter(item => item.type === type);
+    },
+    responseIsError(context, payload) {
+      const response = payload;
+      if (response.error) context.state.errors.push(response.error);
+    }
+  }
+});
 
-const router = new VueRouter({ routes, mode: 'history' });
-
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
 new Vue({
   router,
+  store,
   render: h => h(App),
 }).$mount("#app");

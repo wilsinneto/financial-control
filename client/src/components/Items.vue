@@ -17,7 +17,6 @@
 </template>
 
 <script>
-import ItemsController from "../controllers/Items";
 import CardFormSimple from './childs/CardFormSimple.vue';
 import Errors from './childs/errors/Errors.vue';
 
@@ -26,46 +25,25 @@ export default {
   props: ["type", "link"],
   components: { CardFormSimple, Errors },
   data() {
-    return {
-      errors: [],
-      items: [],
-      itemsController: {},
-    }
+    return {}
   },
   methods: {
     async removeItem(item) {
-      console.log("removeItem");
-      const response = await this.itemsController.remove(item);
-      this.responseIsError(response);
-      this.runningOperation();
+      this.$store.dispatch("removeItem", { item, type: this.type });
     },
     async saveItem(item) {
-      console.log("Item - save");
-      if (item.id) {
-        console.log("update");
-        const response = await this.itemsController.update(item);
-        this.responseIsError(response);
-        this.runningOperation();
-      } else {
-        console.log("create");
-        const response = await this.itemsController.create(item);
-        this.responseIsError(response);
-        this.runningOperation();
-      }
+      this.$store.dispatch("saveItem", { item, type: this.type });
     },
     async generateItems() {
-      console.log("generatItems");
-      this.itemsController = new ItemsController();
-      const response = await this.itemsController.getAll();
-      this.responseIsError(response);
-      this.runningOperation(response, this.type);
+      this.$store.dispatch("generateItems", this.type);
+    }
+  },
+  computed: {
+    errors() {
+      return this.$store.state.errors;
     },
-    runningOperation(response, type) {
-      if (!response) this.generateItems();
-      else this.items = response.filter(item => item.type === type);
-    },
-    responseIsError(response) {
-      if (response.error) this.errors.push(response.error)
+    items() {
+      return this.$store.state.items;
     }
   },
   created() {

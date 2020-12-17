@@ -81,17 +81,15 @@ export default {
       item: {
         description: "",
         value: "",
-        date: Date
+        date: Date,
       },
     }
   },
   computed: {
     filteredItems() {
       const elements = this.items
-        .slice(0)
-        .sort((a, b) => this.compareString(a, b))
-        .filter(element => this.normalizeItems(element)
-      );
+        .filter(element => this.normalizeItems(element))
+        .sort((a, b) => this.compareString(a, b));
       return elements;
     }
   },

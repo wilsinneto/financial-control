@@ -1,45 +1,50 @@
 <template>
-  <div class="card">
-    <div class="card-body">
-      <ul class="list-group">
-        <li class="list-group-item">
-          <div class="row">
-            <div
-            class="col-md-1 header-item"
-            v-on:click="sort('id')">
-            <b>Id</b>
+  <main>
+    <label>
+      Itens <span class="badge badge-info">{{ sortedItems.length }}</span>
+    </label>
+    <div class="card">
+      <div class="card-body">
+        <ul class="list-group">
+          <li class="list-group-item">
+            <div class="row">
+              <div
+              class="col-md-1 header-item"
+              v-on:click="sort('id')">
+              <b>Id</b>
+              </div>
+              <div
+              class="col-md-2 header-item"
+              v-on:click="sort('type')">
+              <b>Tipo</b>
+              </div>
+              <div
+              class="col-md-9 header-item"
+              v-on:click="sort('description')">
+              <b>Descrição</b>
+              </div>
             </div>
-            <div
-            class="col-md-2 header-item"
-            v-on:click="sort('type')">
-            <b>Tipo</b>
+          </li>
+          <li class="list-group-item" v-for="item in sortedItems" v-bind:key="item.id">
+            <div class="row">
+              <div class="col-md-1">{{item.id}}</div>
+              <div class="col-md-2">{{item.type}}</div>
+              <div class="col-md-7">{{item.description}}</div>
+              <div class="col-md-2 text-right">
+                <span class="btn btn-success" v-on:click="updateItem(item)">
+                  <i class="fa fa-pencil"></i>
+                </span>
+                &nbsp;
+                <span class="btn btn-danger" v-on:click="removeItem(item)">
+                  <i class="fa fa-trash"></i>
+                </span>
+              </div>
             </div>
-            <div
-            class="col-md-9 header-item"
-            v-on:click="sort('description')">
-            <b>Descrição</b>
-            </div>
-          </div>
-        </li>
-        <li class="list-group-item" v-for="item in sortedItems" v-bind:key="item.id">
-          <div class="row">
-            <div class="col-md-1">{{item.id}}</div>
-            <div class="col-md-2">{{item.type}}</div>
-            <div class="col-md-7">{{item.description}}</div>
-            <div class="col-md-2 text-right">
-              <span class="btn btn-success" v-on:click="updateItem(item)">
-                <i class="fa fa-pencil"></i>
-              </span>
-              &nbsp;
-              <span class="btn btn-danger" v-on:click="removeItem(item)">
-                <i class="fa fa-trash"></i>
-              </span>
-            </div>
-          </div>
-        </li>
-      </ul>
+          </li>
+        </ul>
+      </div>
     </div>
-  </div>
+  </main>
 </template>
 
 <script>
