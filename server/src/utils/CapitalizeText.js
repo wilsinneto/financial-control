@@ -1,3 +1,4 @@
-exports.capitalizeFirstLetter = (string) => {
-  return string.charAt(0).toUpperCase() + string.slice(1);
+exports.capitalizeFirstLetter = (description) => {
+  const descriptionCapitalize = (description.charAt(0).toUpperCase() + description.slice(1));
+  return descriptionCapitalize;
 }

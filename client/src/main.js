@@ -15,25 +15,25 @@ const store = new Vuex.Store({
   },
   actions: {
     async removeItem(context, payload) {
-      console.log("removeItem");
-      const { item, type } = payload;
+      console.log("removeItem", payload);
+      const item = payload;
       const response = await context.state.itemsController.remove(item);
       context.dispatch("responseIsError", response);
-      context.dispatch("generateItems", type);
+      context.dispatch("generateItems", item.type);
     },
     async saveItem(context, payload) {
       console.log("Item - save");
-      const { item, type } = payload;
+      const item = payload;
       if (item.id) {
         console.log("update");
         const response = await context.state.itemsController.update(item);
         context.dispatch("responseIsError", response);
-        context.dispatch("generateItems", type);
+        context.dispatch("generateItems", item.type);
       } else {
         console.log("create");
         const response = await context.state.itemsController.create(item);
         context.dispatch("responseIsError", response);
-        context.dispatch("generateItems", type);
+        context.dispatch("generateItems", item.type);
       }
     },
     async generateItems(context, payload) {

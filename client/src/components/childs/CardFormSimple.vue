@@ -56,9 +56,12 @@ export default {
       const { newItem, error } = validateInputFormItems(item.description);
       this.error = error;
       if (!error.length) {
-        item.type = this.type;
-        item.description = newItem;
-        this.$emit("saveItem", item);
+        this.$emit("saveItem", {
+          id: item.id || "",
+          type: this.type,
+          description: newItem
+          }
+        );
         this.item.description = "";
       }
     },
