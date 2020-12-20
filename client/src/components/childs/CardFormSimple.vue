@@ -5,14 +5,23 @@
         <b>{{ error }}</b>
       </div>
     </div>
-    <form>
+    <form v-on:submit.prevent>
       <label>{{ type }}</label>
       <div class="form-row text-center">
         <div class="col-md-5 text-left">
-          <input type="text" class="form-control" v-model="item.description" name="inputItem" id="inputItem">
+          <input
+          type="text"
+          class="form-control"
+          v-model="item.description"
+          name="inputItem"
+          id="inputItem"
+          v-on:keyup.enter="saveItem(item)"
+          >
         </div>
         <div class="col-md-1 text-left">
-          <span class="btn btn-primary" v-on:click="saveItem(item)"><i class="fa fa-plus"></i></span>
+          <span class="btn btn-primary" v-on:click="saveItem(item)">
+            <i class="fa fa-plus"></i>
+          </span>
         </div>
       </div>
     </form>

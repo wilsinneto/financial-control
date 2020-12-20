@@ -2,7 +2,7 @@ let errors = [];
 let newElement = {};
 
 function isFieldsEmpty(element) {
-  console.log("element", element);
+  console.log("element");
   if (!element.description)
     errors.push("Por favor, selecione uma despesa.");
   if (element.date === Date || element.date instanceof Date)

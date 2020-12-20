@@ -6,6 +6,7 @@ class ItemsController {
     this.ItemsUseCase = ItemsUseCase;
   }
   async update(request, response) {
+    console.log("Items update");
     const id = request.params.id;
     const body = request.body;
     body.description = capitalizeFirstLetter(body.description);
@@ -18,6 +19,7 @@ class ItemsController {
     }
   }
   async delete(request, response) {
+    console.log("Items delete");
     const id = request.params.id;
     const payload = optionsId(id);
     try {
@@ -28,6 +30,7 @@ class ItemsController {
     }
   }
   async getAll(request, response) {
+    console.log("Items get all");
     try {
       const data = await this.ItemsUseCase.getAll();
       return response.status(200).send(data);
