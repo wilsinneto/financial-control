@@ -4,6 +4,8 @@ const Op = Sequelize.Op;
 
 exports.optionsId = (id) => ({ where: { id }});
 
+exports.optionsEmail = (email) => ({ where: { email } });
+
 exports.optionsDescription = (string) => (
   { where: { description: string } }
 );

@@ -2,7 +2,7 @@
   <main id="list">
     <div class="container">
       <label>
-        Itens <span class="badge badge-info">{{ sortedItems.length }}</span>
+        Itens <span class="badge badge-info">{{ items.length }}</span>
       </label>
       <div class="card">
         <div class="card-body">
@@ -38,6 +38,22 @@
           </ul>
         </div>
       </div>
+      <br />
+      <p>
+        <span
+          @click="previousPage"
+          class="btn btn-primary"
+        >
+          <i class="fa fa-chevron-left"></i>
+        </span>
+        &nbsp;
+        <span
+          @click="nextPage"
+          class="btn btn-primary"
+        >
+          <i class="fa fa-chevron-right"></i>
+        </span>
+      </p>
     </div>
   </main>
 </template>
@@ -49,18 +65,31 @@ export default {
   data() {
     return {
       currentSort: "date",
-      currentSortDir: "DESC"
+      currentSortDir: "DESC",
+      pageSize: 3,
+      currentPage: 1
     }
   },
   computed: {
     sortedItems() {
       const elements = this.items
         .slice(0)
-        .sort((a, b) => this.compareString(a, b));
+        .sort((a, b) => this.compareString(a, b)
+        ).filter((row, index) => {
+          let start = (this.currentPage-1)*this.pageSize;
+          let end = this.currentPage*this.pageSize;
+          if(index >= start && index < end) return true;
+        });
       return elements;
     }
   },
   methods: {
+    nextPage:function() {
+      if((this.currentPage*this.pageSize) < this.items.length) this.currentPage++;
+    },
+    previousPage:function() {
+      if(this.currentPage > 1) this.currentPage--;
+    },
     formatMoney(value) {
 			const formatter = new Intl.NumberFormat("pt-BR", {
 				style: "currency",
