@@ -40,21 +40,24 @@
       </div>
       <br />
       <p>
-        <span
+        <button
           @click="previousPage"
+          :disabled="cantGoBack"
           class="btn btn-primary"
         >
           <i class="fa fa-chevron-left"></i>
-        </span>
+        </button>
         &nbsp;
-        <span
+        <button
           @click="nextPage"
+          :disabled="cantGoNext"
           class="btn btn-primary"
         >
           <i class="fa fa-chevron-right"></i>
-        </span>
+        </button>
       </p>
     </div>
+    debug: sort={{currentSort}}, dir={{currentSortDir}}, page={{currentPage}} - {{ cantGoNext }}
   </main>
 </template>
 
@@ -67,10 +70,19 @@ export default {
       currentSort: "date",
       currentSortDir: "DESC",
       pageSize: 3,
-      currentPage: 1
+      currentPage: 1,
     }
   },
   computed: {
+    cantGoNext() {
+      var allPages = Math.floor(
+        (this.items.length + this.pageSize - 1) / this.pageSize
+      );
+      return this.currentPage === allPages;
+    },
+    cantGoBack() {
+      return this.currentPage === 1;
+    },
     sortedItems() {
       const elements = this.items
         .slice(0)
