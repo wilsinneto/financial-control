@@ -31,14 +31,14 @@ class UsersController {
 		try {
 			const result = await this.UsersUseCases.login(email, secret);
 
-			if (result.error) return response.status(401).send({ error: "user not found." });
-			if (result.invalid) return response.status(409).send({ error: "Invalid password." });
+			if (result.error) return response.status(401).send({ error: "User not found." });
+			if (result.invalid) return response.status(403).send({ error: "Invalid password." });
 
 			const { password, ...user } = result;
 
 			const token = sign({ user: user.id });
 
-			return response.status(200).send({ user, token });
+			return response.status(200).json({ user, token });
 		} catch (error) {
 			return response.status(400).send({ error: "Unable to log in." });
 		}
