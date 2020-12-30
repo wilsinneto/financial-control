@@ -1,17 +1,13 @@
 const { execute, headerGetOrDelete, headerSave } = require("../utils/Request");
 const { captureHttpStatusCode, getMessage } = require("../utils/ResponseMessage");
 
-let urlAPI = "http://localhost:3000/elements";
+let urlAPI = "http://localhost:3000/items";
 
-class ElementsController {
+class ItemsService {
   constructor() {}
-  async getPeriod(payload) {
+  async update(item) {
     try {
-      const response = await execute(
-        urlAPI.concat(
-          `/${payload.startDate}/${payload.endDate}`
-        ), headerGetOrDelete("GET")
-      );
+      const response = await execute(urlAPI.concat(`/${item.id}`), headerSave("PUT", item));
       if (response.error) {
         const [matches] = captureHttpStatusCode(response.message);
         return { error: getMessage(matches) };
@@ -22,22 +18,9 @@ class ElementsController {
       return { error: getMessage(matches) };
     }
   }
-  async update(element) {
+  async remove(item) {
     try {
-      const response = await execute(urlAPI.concat(`/${element.id}`), headerSave("PUT", element));
-      if (response.error) {
-        const [matches] = captureHttpStatusCode(response.message);
-        return { error: getMessage(matches) };
-      }
-      return response;
-    } catch (error) {
-      const [matches] = captureHttpStatusCode(error.message);
-      return { error: getMessage(matches) };
-    }
-  }
-  async remove(element) {
-    try {
-      const response = await execute(urlAPI.concat(`/${element.id}`), headerGetOrDelete("DELETE"));
+      const response = await execute(urlAPI.concat(`/${item.id}`), headerGetOrDelete("DELETE"));
       if (response.error) {
         const [matches] = captureHttpStatusCode(response.message);
         return { error: getMessage(matches) };
@@ -61,9 +44,10 @@ class ElementsController {
       return { error: getMessage(matches) };
     }
   }
-  async create(element) {
+  async create(item) {
+    console.log("Controller - Items create");
     try {
-      const response = await execute(urlAPI, headerSave("POST", element));
+      const response = await execute(urlAPI, headerSave("POST", item));
       if (response.error) {
         const [matches] = captureHttpStatusCode(response.message);
         return { error: getMessage(matches) };
@@ -76,4 +60,4 @@ class ElementsController {
   }
 }
 
-module.exports = ElementsController;
+module.exports = ItemsService;

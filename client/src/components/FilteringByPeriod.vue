@@ -25,7 +25,7 @@ import Error from "./childs/errors/Error.vue";
 import Dates from "./childs/Dates.vue";
 import CardSimpleList from "./childs/CardSimpleList.vue";
 import { validateInputFormPeriod } from "@/utils/validate/PeriodValidate";
-import ElementsController from "@/controllers/Elements";
+import ElementsService from "@/services/Elements";
 
 export default {
   name: "Period",
@@ -47,8 +47,8 @@ export default {
       this.error = error;
       if (!error.length) {
         this.error = "";
-        const elementsController = new ElementsController();
-        const response = await elementsController.getPeriod(payload);
+        const elementsService = new ElementsService();
+        const response = await elementsService.getPeriod(payload);
         if (response.error) this.error = response.error;
         else this.elements = response.filter(element => element.items.type === "Despesa");
       }

@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import ItemsController from "@/controllers/Items";
-import ElementsController from "@/controllers/Elements";
+import ItemsService from "@/services/Items";
+import ElementsService from "@/services/Elements";
 
 Vue.use(Vuex);
 
@@ -10,7 +10,8 @@ export default new Vuex.Store({
     errors: [],
     items: [],
     elements: [],
-    itemsController: {},
+    itemsService: {},
+    elementsService: {}
   },
   mutations: {
     setItems(state, payload) {
@@ -30,12 +31,12 @@ export default new Vuex.Store({
 			console.log("Elements - save");
       if (item.id) {
         console.log("update");
-        const response = await context.state.elementsController.update(item);
+        const response = await context.state.elementsService.update(item);
         context.dispatch("responseIsError", response);
         context.dispatch("generateElements", item.items.type);
       } else {
         console.log("create");
-        const response = await context.state.elementsController.create(item);
+        const response = await context.state.elementsService.create(item);
         context.dispatch("responseIsError", response);
         context.dispatch("generateElements", type);
       }
@@ -43,22 +44,22 @@ export default new Vuex.Store({
 		async removeElement(context, payload) {
 			const item = payload;
 			console.log("removeElement");
-      const response = await context.state.elementsController.remove(item);
+      const response = await context.state.elementsService.remove(item);
       context.dispatch("responseIsError", response);
       context.dispatch("generateElements", item.items.type);
 		},
     async generateElements(context, payload) {
 			console.log("generateItems");
 			const type = payload;
-      context.state.elementsController = new ElementsController();
-      const response = await context.state.elementsController.getAll();
+      context.state.elementsService = new ElementsService();
+      const response = await context.state.elementsService.getAll();
       context.dispatch("responseIsError", response);
       context.commit("setElements", { response, type });
 		},
     async removeItem(context, payload) {
       console.log("removeItem");
       const item = payload;
-      const response = await context.state.itemsController.remove(item);
+      const response = await context.state.itemsService.remove(item);
       context.dispatch("responseIsError", response);
       context.dispatch("generateItems", item.type);
     },
@@ -67,12 +68,12 @@ export default new Vuex.Store({
       const item = payload;
       if (item.id) {
         console.log("update");
-        const response = await context.state.itemsController.update(item);
+        const response = await context.state.itemsService.update(item);
         context.dispatch("responseIsError", response);
         context.dispatch("generateItems", item.type);
       } else {
         console.log("create");
-        const response = await context.state.itemsController.create(item);
+        const response = await context.state.itemsService.create(item);
         context.dispatch("responseIsError", response);
         context.dispatch("generateItems", item.type);
       }
@@ -80,8 +81,8 @@ export default new Vuex.Store({
     async generateItems(context, payload) {
       console.log("generatItems");
       const type = payload;
-      context.state.itemsController = new ItemsController();
-      const response = await context.state.itemsController.getAll();
+      context.state.itemsService = new ItemsService();
+      const response = await context.state.itemsService.getAll();
       context.dispatch("responseIsError", response);
       context.commit("setItems", { response, type });
     },

@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import UsersController from "@/controllers/Users.js";
+import UsersService from "@/services/Users.js";
 
 export default {
   data() {
@@ -64,8 +64,8 @@ export default {
 	
   created() {
 		// reset login status
-		const usersController = new UsersController();
-    usersController.logout();
+		const usersService = new UsersService();
+    usersService.logout();
     // get return url from route parameters or default to '/'
     this.returnUrl = this.$route.query.returnUrl || "/";
 	},
@@ -79,8 +79,8 @@ export default {
         return;
       }
 			this.loading = true;
-			const usersController = new UsersController();
-			const user = await usersController.login(username, password);
+			const usersService = new UsersService();
+			const user = await usersService.login(username, password);
 
 			if (user.error) {
 				this.error = user.error;

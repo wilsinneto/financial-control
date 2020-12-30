@@ -3,7 +3,7 @@ const { captureHttpStatusCode, getMessage } = require("@/utils/ResponseMessage")
 
 let urlAPI = "http://localhost:3000/users";
 
-class UsersController {
+class UsersService {
 	constructor() {}
 
 	logout() {
@@ -12,7 +12,7 @@ class UsersController {
 	}
 
 	async login(username, password) {
-		console.log("UsersController - login");
+		console.log("UsersService - login");
 		let headers = {
 			"Authorization": "Basic " + btoa(username + ":" + password)
 		};
@@ -48,4 +48,4 @@ class UsersController {
 	}
 }
 
-module.exports = UsersController;
+module.exports = UsersService;

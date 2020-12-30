@@ -57,7 +57,6 @@
         </button>
       </p>
     </div>
-    debug: sort={{currentSort}}, dir={{currentSortDir}}, page={{currentPage}} - {{ cantGoNext }}
   </main>
 </template>
 

@@ -13,7 +13,7 @@ router.beforeEach((to, from, next) => {
 
   if (authRequired && !loggedIn) {
     return next({ 
-      // path: "/login",
+      path: "/login",
       query: { returnUrl: to.path } 
     });
   }
